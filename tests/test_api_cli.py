@@ -61,6 +61,63 @@ def test_cli_ingest_accepts_allow_network_option(tmp_path, monkeypatch):
     assert '"items_inserted": 1' in result.stdout
 
 
+def test_cli_watch_passes_schedule_options(tmp_path, monkeypatch):
+    db_path = tmp_path / "aihot.db"
+    runner = CliRunner()
+    captured = {}
+
+    def fake_run_scheduled_ingest(
+        sources,
+        db,
+        *,
+        fixture_dir=None,
+        allow_network=False,
+        interval_seconds=None,
+        daily_at=None,
+        run_immediately=True,
+        max_runs=None,
+    ):
+        captured.update(
+            {
+                "sources": sources,
+                "db": db,
+                "fixture_dir": fixture_dir,
+                "allow_network": allow_network,
+                "interval_seconds": interval_seconds,
+                "daily_at": daily_at,
+                "run_immediately": run_immediately,
+                "max_runs": max_runs,
+            }
+        )
+
+    monkeypatch.setattr("aihot.cli.run_scheduled_ingest", fake_run_scheduled_ingest)
+
+    result = runner.invoke(
+        app,
+        [
+            "watch",
+            "--sources",
+            "sources/aihot-mvp.yml",
+            "--db",
+            str(db_path),
+            "--fixture-dir",
+            "tests/fixtures",
+            "--allow-network",
+            "--daily-at",
+            "08:30",
+            "--wait-first",
+            "--max-runs",
+            "1",
+        ],
+    )
+
+    assert result.exit_code == 0
+    assert captured["allow_network"] is True
+    assert captured["daily_at"] == "08:30"
+    assert captured["run_immediately"] is False
+    assert captured["max_runs"] == 1
+
+
 def test_api_reads_ingested_database(tmp_path):
     db_path = tmp_path / "aihot.db"
     run_pipeline_once(Path("sources/aihot-mvp.yml"), db_path, fixture_dir=Path("tests/fixtures"))
