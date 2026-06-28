@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>AI Feed</title>
+    <item>
+      <title>OpenAI releases new agent tools</title>
+      <link>https://example.com/openai-agent?utm_source=x#section</link>
+      <guid>openai-agent-1</guid>
+      <pubDate>Sun, 28 Jun 2026 08:00:00 GMT</pubDate>
+      <description>New tools help developers build reliable agents.</description>
+    </item>
+    <item>
+      <title>DeepMind publishes Gemini robotics update</title>
+      <link>https://example.com/deepmind-robotics/</link>
+      <guid>deepmind-robotics-1</guid>
+      <pubDate>Sun, 28 Jun 2026 07:00:00 GMT</pubDate>
+      <description>Robotics models get better planning.</description>
+    </item>
+  </channel>
+</rss>

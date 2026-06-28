@@ -1,3 +1,8 @@
 yy-all-query.md
 *.log
 .DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+data/*.db

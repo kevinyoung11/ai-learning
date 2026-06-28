@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Malformed Feed</title>
+    <item>
+      <title></title>
+      <link>https://example.com/missing-title</link>
+      <pubDate>Sun, 28 Jun 2026 08:00:00 GMT</pubDate>
+      <description>Missing title should be skipped.</description>
+    </item>
+    <item>
+      <title>Missing URL should be skipped</title>
+      <pubDate>Sun, 28 Jun 2026 08:00:00 GMT</pubDate>
+      <description>Missing URL should be skipped.</description>
+    </item>
+  </channel>
+</rss>
