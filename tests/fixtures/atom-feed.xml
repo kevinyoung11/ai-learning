@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Atom AI Feed</title>
+  <entry>
+    <title>Anthropic ships Claude workflow controls</title>
+    <link href="https://example.com/claude-workflow"/>
+    <id>claude-workflow-1</id>
+    <updated>2026-06-28T06:30:00Z</updated>
+    <summary>Workflow controls improve review gates.</summary>
+  </entry>
+</feed>

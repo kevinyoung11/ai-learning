@@ -1,0 +1,39 @@
+sources:
+  - id: openai_fixture
+    name: OpenAI Fixture
+    source_type: rss
+    adapter: rss
+    url: fixture://ai-feed.xml
+    tier: stable
+    weight: 1.5
+    enabled: true
+  - id: atom_fixture
+    name: Atom Fixture
+    source_type: rss
+    adapter: rss
+    url: fixture://atom-feed.xml
+    tier: stable
+    weight: 1.2
+    enabled: true
+  - id: duplicate_fixture
+    name: Duplicate Fixture
+    source_type: rss
+    adapter: rss
+    url: fixture://duplicate-feed.xml
+    tier: stable
+    weight: 1.0
+    enabled: true
+  - id: missing_fixture
+    name: Missing Fixture
+    source_type: rss
+    adapter: rss
+    url: fixture://missing.xml
+    tier: stable
+    weight: 1.0
+    enabled: true
+  - id: wechat_placeholder
+    name: WeChat Placeholder
+    source_type: wechat
+    adapter: disabled
+    tier: experimental
+    enabled: false

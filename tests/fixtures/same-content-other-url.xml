@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Same Content Other URL</title>
+    <item>
+      <title>OpenAI releases new agent tools</title>
+      <link>https://mirror.example.com/openai-agent</link>
+      <guid>openai-agent-mirror</guid>
+      <pubDate>Sun, 28 Jun 2026 08:10:00 GMT</pubDate>
+      <description>New tools help developers build reliable agents.</description>
+    </item>
+  </channel>
+</rss>

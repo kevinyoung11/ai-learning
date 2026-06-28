@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Duplicate Feed</title>
+    <item>
+      <title>OpenAI releases new agent tools!!!</title>
+      <link>https://example.com/openai-agent?utm_campaign=newsletter</link>
+      <guid>openai-agent-duplicate</guid>
+      <pubDate>Sun, 28 Jun 2026 08:05:00 GMT</pubDate>
+      <description>New tools help developers build reliable agents.</description>
+    </item>
+  </channel>
+</rss>
