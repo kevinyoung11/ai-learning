@@ -315,6 +315,17 @@ class Repository:
             ).fetchone()
         return dict(row) if row is not None else None
 
+    def list_daily_reports(self) -> list[dict[str, Any]]:
+        with self._connect() as conn:
+            rows = conn.execute(
+                """
+                SELECT day, narrative, story_count
+                FROM daily_reports
+                ORDER BY day DESC
+                """
+            ).fetchall()
+        return [dict(row) for row in rows]
+
     def _connect(self) -> sqlite3.Connection:
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
