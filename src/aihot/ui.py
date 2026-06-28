@@ -5,23 +5,72 @@ from typing import Any
 
 
 STYLE_CSS = """
-:root {
+:root,
+:root[data-theme="dark"] {
   --ink: #18181B;
   --bg: #060814;
   --panel: #0D111D;
   --panel-2: #111827;
   --card: #101624;
   --card-soft: #151D2D;
+  --sidebar-bg: rgba(8, 11, 20, .96);
+  --mobile-nav-bg: rgba(8, 11, 20, .94);
+  --chip-bg: rgba(255, 255, 255, .04);
+  --hover-bg: rgba(148, 163, 184, .12);
+  --footer-bg: rgba(255, 255, 255, .03);
+  --card-bg: rgba(16, 22, 36, .88);
+  --panel-bg: rgba(13, 17, 29, .86);
+  --metric-bg: rgba(255, 255, 255, .04);
+  --source-bg: rgba(255, 255, 255, .03);
+  --shadow: rgba(0, 0, 0, .22);
   --line: rgba(148, 163, 184, .18);
   --line-strong: rgba(148, 163, 184, .28);
   --text: #E5E7EB;
   --muted: #94A3B8;
   --subtle: #64748B;
+  --summary: #CBD5E1;
+  --tag-text: #BAE6FD;
+  --tag-bg: rgba(56, 189, 248, .12);
+  --tag-line: rgba(56, 189, 248, .22);
   --accent: #F59E0B;
+  --accent-contrast: #060814;
   --accent-2: #38BDF8;
   --green: #22C55E;
   --red: #F43F5E;
   --white: #FFFFFF;
+}
+:root[data-theme="light"] {
+  --ink: #18181B;
+  --bg: #F6F7F9;
+  --panel: #FFFFFF;
+  --panel-2: #F1F5F9;
+  --card: #FFFFFF;
+  --card-soft: #F8FAFC;
+  --sidebar-bg: rgba(255, 255, 255, .96);
+  --mobile-nav-bg: rgba(255, 255, 255, .94);
+  --chip-bg: rgba(15, 23, 42, .04);
+  --hover-bg: rgba(15, 23, 42, .07);
+  --footer-bg: rgba(15, 23, 42, .035);
+  --card-bg: rgba(255, 255, 255, .92);
+  --panel-bg: rgba(255, 255, 255, .9);
+  --metric-bg: rgba(15, 23, 42, .04);
+  --source-bg: rgba(15, 23, 42, .03);
+  --shadow: rgba(15, 23, 42, .08);
+  --line: rgba(15, 23, 42, .12);
+  --line-strong: rgba(15, 23, 42, .2);
+  --text: #1F2937;
+  --muted: #64748B;
+  --subtle: #94A3B8;
+  --summary: #475569;
+  --tag-text: #0369A1;
+  --tag-bg: rgba(14, 165, 233, .1);
+  --tag-line: rgba(14, 165, 233, .2);
+  --accent: #D97706;
+  --accent-contrast: #FFFFFF;
+  --accent-2: #0284C7;
+  --green: #16A34A;
+  --red: #E11D48;
+  --white: #111827;
 }
 * { box-sizing: border-box; }
 body {
@@ -41,7 +90,7 @@ a { color: inherit; text-decoration: none; }
   height: 100vh;
   padding: 22px 16px;
   border-right: 1px solid var(--line);
-  background: rgba(8, 11, 20, .96);
+  background: var(--sidebar-bg);
 }
 .brand { display: flex; align-items: center; gap: 8px; height: 36px; margin: 0 4px 22px; font-weight: 750; letter-spacing: .04em; }
 .brand-ai { color: var(--white); }
@@ -57,7 +106,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--muted);
   font-size: 14px;
 }
-.side-link:hover, .side-link-active { color: var(--white); background: rgba(148, 163, 184, .12); }
+.side-link:hover, .side-link-active { color: var(--white); background: var(--hover-bg); }
 .side-icon { width: 18px; text-align: center; color: var(--accent-2); }
 .sidebar-footer {
   position: absolute;
@@ -70,7 +119,28 @@ a { color: inherit; text-decoration: none; }
   color: var(--muted);
   font-size: 12px;
   line-height: 1.6;
-  background: rgba(255, 255, 255, .03);
+  background: var(--footer-bg);
+}
+.theme-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.theme-toggle {
+  min-height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: var(--chip-bg);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.theme-toggle:hover, .theme-toggle-active {
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border-color: var(--accent);
 }
 .app-main { min-width: 0; padding: 22px 28px 56px; }
 .page-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 22px; max-width: 1180px; margin: 0 auto; }
@@ -91,10 +161,10 @@ a { color: inherit; text-decoration: none; }
   border-radius: 999px;
   padding: 7px 10px;
   color: var(--muted);
-  background: rgba(255, 255, 255, .04);
+  background: var(--chip-bg);
   font-size: 12px;
 }
-.chip-active { color: var(--bg); background: var(--accent); border-color: var(--accent); font-weight: 700; }
+.chip-active { color: var(--accent-contrast); background: var(--accent); border-color: var(--accent); font-weight: 700; }
 .timeline { position: relative; display: flex; flex-direction: column; gap: 14px; }
 .timeline-item { display: grid; grid-template-columns: 48px 18px minmax(0, 1fr); gap: 12px; }
 .timeline-time { color: var(--muted); font-size: 12px; padding-top: 22px; text-align: right; font-variant-numeric: tabular-nums; }
@@ -104,19 +174,19 @@ a { color: inherit; text-decoration: none; }
 .timeline-card {
   border: 1px solid var(--line);
   border-radius: 16px;
-  background: rgba(16, 22, 36, .88);
+  background: var(--card-bg);
   padding: 16px 18px;
-  box-shadow: 0 18px 60px rgba(0, 0, 0, .22);
+  box-shadow: 0 18px 60px var(--shadow);
 }
 .timeline-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
 .timeline-head-left, .timeline-head-right { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .timeline-source { color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.timeline-selected-badge { color: var(--bg); background: var(--green); border-radius: 999px; padding: 3px 7px; font-size: 11px; font-weight: 750; }
+.timeline-selected-badge { color: var(--accent-contrast); background: var(--green); border-radius: 999px; padding: 3px 7px; font-size: 11px; font-weight: 750; }
 .timeline-score { color: var(--accent); font-size: 12px; font-weight: 780; font-variant-numeric: tabular-nums; }
 .timeline-title { display: block; margin: 0 0 8px; color: var(--white); font-size: 17px; line-height: 1.42; font-weight: 720; }
-.timeline-summary { margin: 0; color: #CBD5E1; font-size: 14px; line-height: 1.72; }
+.timeline-summary { margin: 0; color: var(--summary); font-size: 14px; line-height: 1.72; }
 .timeline-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
-.tag { color: #BAE6FD; background: rgba(56, 189, 248, .12); border: 1px solid rgba(56, 189, 248, .22); border-radius: 999px; padding: 4px 8px; font-size: 11px; }
+.tag { color: var(--tag-text); background: var(--tag-bg); border: 1px solid var(--tag-line); border-radius: 999px; padding: 4px 8px; font-size: 11px; }
 .timeline-divider { border: 0; border-top: 1px solid var(--line); margin: 13px 0 10px; }
 .timeline-reason { color: var(--muted); font-size: 13px; line-height: 1.7; }
 .timeline-reason-label { color: var(--accent); font-weight: 700; }
@@ -124,11 +194,11 @@ a { color: inherit; text-decoration: none; }
 .metric-card, .source-panel, .daily-brief, .story-panel {
   border: 1px solid var(--line);
   border-radius: 16px;
-  background: rgba(13, 17, 29, .86);
+  background: var(--panel-bg);
   padding: 16px;
 }
 .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.metric { padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, .04); }
+.metric { padding: 12px; border-radius: 12px; background: var(--metric-bg); }
 .metric-label { margin: 0; color: var(--muted); font-size: 12px; }
 .metric-value { margin: 4px 0 0; font-size: 24px; font-weight: 760; color: var(--white); }
 .panel-title { margin: 0 0 12px; font-size: 14px; color: var(--white); }
@@ -141,11 +211,11 @@ a { color: inherit; text-decoration: none; }
 .stream { display: flex; flex-direction: column; gap: 14px; }
 .time-group { margin: 12px 0 2px 78px; color: var(--subtle); font-size: 12px; letter-spacing: .08em; }
 .daily-brief { margin-top: 10px; }
-.daily-brief-text { margin: 0; color: #CBD5E1; font-size: 14px; line-height: 1.8; }
+.daily-brief-text { margin: 0; color: var(--summary); font-size: 14px; line-height: 1.8; }
 .story-panel { margin-top: 12px; }
 .back-link { color: var(--muted); font-size: 13px; }
 .source-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
-.source-card { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,.03); }
+.source-card { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--source-bg); }
 .source-icon { flex: 0 0 auto; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 9px; color: var(--accent-2); background: rgba(56,189,248,.12); font-size: 12px; }
 .source-body { min-width: 0; }
 .source-title { margin: 0 0 4px; color: var(--white); font-size: 14px; line-height: 1.45; }
@@ -170,7 +240,7 @@ a { color: inherit; text-decoration: none; }
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     border-top: 1px solid var(--line);
-    background: rgba(8, 11, 20, .94);
+    background: var(--mobile-nav-bg);
     backdrop-filter: blur(16px);
   }
   .m-tab { display: grid; gap: 3px; place-items: center; padding: 9px 4px 10px; color: var(--muted); font-size: 11px; }
@@ -222,12 +292,12 @@ def render_story(story: dict[str, Any], items: list[dict[str, Any]]) -> str:
             <span class="timeline-selected-badge">精选</span>
             <span class="timeline-source">{h(story['day'])}</span>
           </div>
-          <span class="timeline-score">AI 推荐分 {score_text(story)}</span>
+          <span class="timeline-score">规则热度 {score_text(story)}</span>
         </div>
         <h1 class="page-title">{h(story['canonical_title'])}</h1>
         <p class="timeline-summary">{h(story['summary'])}</p>
         <hr class="timeline-divider"/>
-        <div class="timeline-reason"><span class="timeline-reason-label">推荐理由：</span>{recommendation_text(story)}</div>
+        <div class="timeline-reason"><span class="timeline-reason-label">入选依据：</span>{recommendation_text(story)}</div>
       </article>
       <section class="story-panel">
         <h2 class="panel-title">全部来源 · {len(items)}</h2>
@@ -309,13 +379,13 @@ def render_timeline_item(item: dict[str, Any], *, selected: bool = False) -> str
           <div class="timeline-head-left">
             <span class="timeline-source">{h(item['source_id'])}</span>
           </div>
-          <div class="timeline-head-right">{badge}<span class="timeline-score">{score_text(item)}</span></div>
+          <div class="timeline-head-right">{badge}<span class="timeline-score">热度 {score_text(item)}</span></div>
         </div>
         <a class="timeline-title" href="{href}">{h(item['title'])}</a>
         <p class="timeline-summary">{h(item['raw_content'])}</p>
         <div class="timeline-tags">{render_tags(item)}</div>
         <hr class="timeline-divider"/>
-        <div class="timeline-reason"><span class="timeline-reason-label">推荐理由：</span>{recommendation_text(item)}</div>
+        <div class="timeline-reason"><span class="timeline-reason-label">入选依据：</span>{recommendation_text(item)}</div>
       </article>
     </div>
     """
@@ -357,7 +427,7 @@ def metrics_card(first: int, second: int, score: float) -> str:
       <div class="metric-grid">
         <div class="metric"><p class="metric-label">今日条目</p><p class="metric-value">{first}</p></div>
         <div class="metric"><p class="metric-label">来源/故事</p><p class="metric-value">{second}</p></div>
-        <div class="metric"><p class="metric-label">最高分</p><p class="metric-value">{int(score)}</p></div>
+        <div class="metric"><p class="metric-label">最高热度</p><p class="metric-value">{int(score)}</p></div>
         <div class="metric"><p class="metric-label">刷新</p><p class="metric-value">1h</p></div>
       </div>
     </section>
@@ -366,11 +436,17 @@ def metrics_card(first: int, second: int, score: float) -> str:
 
 def page(title: str, active: str, body: str) -> str:
     return f"""<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title}</title>
+<script>
+(function () {{
+  var stored = localStorage.getItem("aihot-theme");
+  document.documentElement.setAttribute("data-theme", stored === "light" ? "light" : "dark");
+}}());
+</script>
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
@@ -386,7 +462,10 @@ def page(title: str, active: str, body: str) -> str:
       <a class="side-link" href="/sources"><span class="side-icon">◎</span><span>来源状态</span></a>
       <a class="side-link" href="/docs"><span class="side-icon">API</span><span>API</span></a>
     </nav>
-    <div class="sidebar-footer">每小时扫描公开源。RSS/API 默认启用；公众号与 X 已登记，等待专用接入器。</div>
+    <div class="sidebar-footer">
+      {theme_switch()}
+      <div>每小时扫描公开源。RSS/API 默认启用；公众号与 X 已登记，等待专用接入器。</div>
+    </div>
   </aside>
   <main class="app-main">{body}</main>
   <nav class="m-tabbar" aria-label="移动端主导航">
@@ -395,6 +474,24 @@ def page(title: str, active: str, body: str) -> str:
     <a class="m-tab {active_class(active, 'digest', 'm-tab-active')}" href="/digest">日报</a>
   </nav>
 </div>
+<script>
+(function () {{
+  function applyTheme(theme) {{
+    var next = theme === "light" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("aihot-theme", next);
+    document.querySelectorAll("[data-theme-choice]").forEach(function (button) {{
+      button.classList.toggle("theme-toggle-active", button.dataset.themeChoice === next);
+      button.setAttribute("aria-pressed", button.dataset.themeChoice === next ? "true" : "false");
+    }});
+  }}
+  document.addEventListener("click", function (event) {{
+    var button = event.target.closest("[data-theme-choice]");
+    if (button) applyTheme(button.dataset.themeChoice);
+  }});
+  applyTheme(document.documentElement.getAttribute("data-theme"));
+}}());
+</script>
 </body>
 </html>"""
 
@@ -405,6 +502,15 @@ def active_class(active: str, name: str, class_name: str = "side-link-active") -
 
 def score_text(row: dict[str, Any]) -> str:
     return str(int(round(float(row.get("hotness") or 0))))
+
+
+def theme_switch() -> str:
+    return """
+      <div class="theme-switch" aria-label="主题">
+        <button class="theme-toggle" type="button" data-theme-choice="dark" aria-pressed="true" title="黑色主题">黑</button>
+        <button class="theme-toggle" type="button" data-theme-choice="light" aria-pressed="false" title="白色主题">白</button>
+      </div>
+    """
 
 
 def time_text(value: Any) -> str:
@@ -461,8 +567,8 @@ def recommendation_text(row: dict[str, Any]) -> str:
     title = str(row.get("title") or row.get("canonical_title") or "这条动态")
     source_count = int(row.get("source_count") or 1)
     if source_count > 1:
-        return f"多个来源同时指向「{h(title)}」，说明它不是孤立噪声，值得优先查看。"
-    return f"「{h(title)}」来自已登记信源，按时间与热度进入本轮精选。"
+        return f"多个来源同时指向「{h(title)}」，按来源权重、聚合数量和发布时间进入本轮排序。"
+    return f"「{h(title)}」来自已登记信源，按来源权重、发布时间和规则热度进入本轮排序。"
 
 
 def h(value: Any) -> str:
