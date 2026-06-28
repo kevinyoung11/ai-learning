@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sqlite3
+import json
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -25,7 +26,11 @@ class Repository:
                     tier TEXT NOT NULL,
                     weight REAL NOT NULL,
                     enabled INTEGER NOT NULL,
-                    timeout_seconds REAL NOT NULL
+                    timeout_seconds REAL NOT NULL,
+                    run_mode TEXT NOT NULL DEFAULT 'active',
+                    auth_env TEXT,
+                    config_json TEXT NOT NULL DEFAULT '{}',
+                    quarantined INTEGER NOT NULL DEFAULT 0
                 );
 
                 CREATE TABLE IF NOT EXISTS source_runs (
@@ -77,14 +82,16 @@ class Repository:
                 );
                 """
             )
+            self._migrate_sources_table(conn)
 
     def upsert_sources(self, sources: list[SourceConfig]) -> None:
         with self._connect() as conn:
             conn.executemany(
                 """
                 INSERT INTO sources (
-                    id, name, source_type, adapter, url, tier, weight, enabled, timeout_seconds
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    id, name, source_type, adapter, url, tier, weight, enabled, timeout_seconds,
+                    run_mode, auth_env, config_json, quarantined
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     name = excluded.name,
                     source_type = excluded.source_type,
@@ -93,7 +100,11 @@ class Repository:
                     tier = excluded.tier,
                     weight = excluded.weight,
                     enabled = excluded.enabled,
-                    timeout_seconds = excluded.timeout_seconds
+                    timeout_seconds = excluded.timeout_seconds,
+                    run_mode = excluded.run_mode,
+                    auth_env = excluded.auth_env,
+                    config_json = excluded.config_json,
+                    quarantined = excluded.quarantined
                 """,
                 [
                     (
@@ -106,6 +117,10 @@ class Repository:
                         source.weight,
                         int(source.enabled),
                         source.timeout_seconds,
+                        source.run_mode,
+                        source.auth_env,
+                        json.dumps(source.config, ensure_ascii=False, sort_keys=True),
+                        int(source.quarantined),
                     )
                     for source in sources
                 ],
@@ -115,7 +130,8 @@ class Repository:
         with self._connect() as conn:
             rows = conn.execute(
                 """
-                SELECT id, name, source_type, adapter, url, tier, weight, enabled, timeout_seconds
+                SELECT id, name, source_type, adapter, url, tier, weight, enabled, timeout_seconds,
+                       run_mode, auth_env, config_json, quarantined
                 FROM sources
                 ORDER BY id
                 """
@@ -333,6 +349,19 @@ class Repository:
         return conn
 
     @staticmethod
+    def _migrate_sources_table(conn: sqlite3.Connection) -> None:
+        columns = {row["name"] for row in conn.execute("PRAGMA table_info(sources)").fetchall()}
+        migrations = {
+            "run_mode": "ALTER TABLE sources ADD COLUMN run_mode TEXT NOT NULL DEFAULT 'active'",
+            "auth_env": "ALTER TABLE sources ADD COLUMN auth_env TEXT",
+            "config_json": "ALTER TABLE sources ADD COLUMN config_json TEXT NOT NULL DEFAULT '{}'",
+            "quarantined": "ALTER TABLE sources ADD COLUMN quarantined INTEGER NOT NULL DEFAULT 0",
+        }
+        for column, statement in migrations.items():
+            if column not in columns:
+                conn.execute(statement)
+
+    @staticmethod
     def _format_dt(value: datetime) -> str:
         return value.isoformat()
 
@@ -340,6 +369,11 @@ class Repository:
     def _source_row(row: sqlite3.Row) -> dict[str, Any]:
         result = dict(row)
         result["enabled"] = bool(result["enabled"])
+        result["quarantined"] = bool(result.get("quarantined", False))
+        try:
+            result["config"] = json.loads(result.pop("config_json", "{}") or "{}")
+        except json.JSONDecodeError:
+            result["config"] = {}
         return result
 
     @staticmethod

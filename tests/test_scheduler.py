@@ -34,8 +34,8 @@ def test_run_scheduled_ingest_runs_immediately_then_sleeps_between_runs(tmp_path
     sleeps = []
     events = []
 
-    def fake_pipeline(catalog_path, db_path, *, fixture_dir=None, allow_network=False):
-        calls.append((catalog_path, db_path, fixture_dir, allow_network))
+    def fake_pipeline(catalog_path, db_path, *, fixture_dir=None, allow_network=False, include_shadow=False):
+        calls.append((catalog_path, db_path, fixture_dir, allow_network, include_shadow))
         return {"sources_total": 1, "sources_failed": 0, "items_inserted": len(calls), "stories": 1}
 
     monkeypatch.setattr("aihot.scheduler.run_pipeline_once", fake_pipeline)
@@ -60,7 +60,7 @@ def test_run_scheduled_ingest_defaults_to_hourly_interval(tmp_path, monkeypatch)
     calls = []
     sleeps = []
 
-    def fake_pipeline(catalog_path, db_path, *, fixture_dir=None, allow_network=False):
+    def fake_pipeline(catalog_path, db_path, *, fixture_dir=None, allow_network=False, include_shadow=False):
         calls.append((catalog_path, db_path))
         return {"sources_total": 1, "sources_failed": 0, "items_inserted": len(calls), "stories": 1}
 
@@ -91,7 +91,7 @@ def test_run_scheduled_ingest_can_wait_until_daily_time(tmp_path, monkeypatch):
     def fake_now():
         return now_values.pop(0) if now_values else datetime(2026, 6, 28, 8, 0, tzinfo=timezone.utc)
 
-    def fake_pipeline(catalog_path, db_path, *, fixture_dir=None, allow_network=False):
+    def fake_pipeline(catalog_path, db_path, *, fixture_dir=None, allow_network=False, include_shadow=False):
         calls.append((catalog_path, db_path))
         return {"sources_total": 1, "sources_failed": 0, "items_inserted": 1, "stories": 1}
 

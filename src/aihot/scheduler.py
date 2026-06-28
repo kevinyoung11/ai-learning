@@ -43,6 +43,7 @@ def run_scheduled_ingest(
     *,
     fixture_dir: str | Path | None = None,
     allow_network: bool = False,
+    include_shadow: bool = False,
     interval_seconds: int | None = None,
     daily_at: str | None = None,
     run_immediately: bool = True,
@@ -79,6 +80,7 @@ def run_scheduled_ingest(
             db_path,
             fixture_dir=fixture_dir,
             allow_network=allow_network,
+            include_shadow=include_shadow,
         )
         runs += 1
         first_run = False

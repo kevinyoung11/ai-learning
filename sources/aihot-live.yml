@@ -1,1523 +1,2007 @@
 sources:
-  - id: inclusionai_github_repos
-    name: inclusionAI GitHub Repositories
-    source_type: github
-    adapter: github_org_repos
-    url: https://api.github.com/orgs/inclusionAI/repos?sort=created&direction=desc&per_page=20
-    tier: stable
-    weight: 1.6
-    enabled: true
-    timeout_seconds: 12
-
-  - id: inclusionai_hf_models
-    name: inclusionAI HuggingFace Models
-    source_type: model
-    adapter: huggingface_models
-    url: https://huggingface.co/api/models?author=inclusionAI&sort=createdAt&direction=-1&limit=20
-    tier: stable
-    weight: 1.6
-    enabled: true
-    timeout_seconds: 12
-
-  - id: zhipu_research
-    name: Zhipu Research
-    source_type: html
-    adapter: disabled
-    tier: experimental
-    weight: 1.2
-    enabled: false
-
-  - id: byte_seed_research
-    name: ByteDance Seed Research Feed
-    source_type: html
-    adapter: disabled
-    tier: experimental
-    weight: 1.2
-    enabled: false
-
-  - id: anthropic_news
-    name: Anthropic Newsroom
-    source_type: html
-    adapter: html_links
-    url: https://www.anthropic.com/news
-    tier: experimental
-    weight: 1.5
-    enabled: false
-    timeout_seconds: 12
-
-  - id: anthropic_research
-    name: Anthropic Research
-    source_type: html
-    adapter: html_links
-    url: https://www.anthropic.com/research
-    tier: experimental
-    weight: 1.5
-    enabled: false
-    timeout_seconds: 12
-
-  - id: anthropic_institute
-    name: Anthropic The Institute
-    source_type: html
-    adapter: disabled
-    tier: experimental
-    weight: 1.3
-    enabled: false
-
-  - id: anthropic_transformer_circuits
-    name: Anthropic Transformer Circuits
-    source_type: html
-    adapter: html_links
-    url: https://transformer-circuits.pub/
-    tier: experimental
-    weight: 1.2
-    enabled: false
-    timeout_seconds: 12
-
-  - id: apple_ml_research
-    name: Apple Machine Learning Research
-    source_type: rss
-    adapter: rss
-    url: https://machinelearning.apple.com/rss.xml
-    tier: stable
-    weight: 1.3
-    enabled: true
-
-  - id: apple_newsroom
-    name: Apple Newsroom
-    source_type: rss
-    adapter: rss
-    url: https://www.apple.com/newsroom/rss-feed.rss
-    tier: stable
-    weight: 1.0
-    enabled: true
-
-  - id: ars_technica_ai
-    name: Ars Technica AI
-    source_type: rss
-    adapter: rss
-    url: https://feeds.arstechnica.com/arstechnica/technology-lab
-    tier: stable
-    weight: 1.1
-    enabled: true
-
-  - id: artificial_intelligence_news
-    name: Artificial Intelligence News
-    source_type: rss
-    adapter: rss
-    url: https://www.artificialintelligence-news.com/feed/
-    tier: stable
-    weight: 1.0
-    enabled: true
-
-  - id: berkeley_rdi_blog
-    name: Berkeley RDI Blog
-    source_type: html
-    adapter: html_links
-    url: https://rdi.berkeley.edu/blog
-    tier: experimental
-    weight: 1.1
-    enabled: false
-    timeout_seconds: 12
-
-  - id: claude_code_releases
-    name: Claude Code GitHub Releases
-    source_type: github
-    adapter: github_releases
-    url: https://github.com/anthropics/claude-code/releases.atom
-    tier: stable
-    weight: 1.4
-    enabled: true
-    timeout_seconds: 12
-
-  - id: claude_blog
-    name: Claude Blog
-    source_type: html
-    adapter: html_links
-    url: https://www.anthropic.com/claude
-    tier: experimental
-    weight: 1.2
-    enabled: false
-    timeout_seconds: 12
-
-  - id: cloudflare_blog
-    name: Cloudflare Blog
-    source_type: rss
-    adapter: rss
-    url: https://blog.cloudflare.com/rss/
-    tier: stable
-    weight: 1.0
-    enabled: true
-
-  - id: cmu_ml_blog
-    name: CMU Machine Learning Blog
-    source_type: rss
-    adapter: rss
-    url: https://blog.ml.cmu.edu/feed/
-    tier: stable
-    weight: 1.1
-    enabled: true
-
-  - id: cursor_blog
-    name: Cursor Blog
-    source_type: html
-    adapter: html_links
-    url: https://cursor.com/blog
-    tier: experimental
-    weight: 1.2
-    enabled: false
-    timeout_seconds: 12
-
-  - id: dario_amodei_blog
-    name: Dario Amodei Blog
-    source_type: html
-    adapter: disabled
-    tier: experimental
-    weight: 1.0
-    enabled: false
-
-  - id: dwarkesh_patel
-    name: Dwarkesh Patel Podcast and Blog
-    source_type: rss
-    adapter: rss
-    url: https://www.dwarkeshpatel.com/feed
-    tier: stable
-    weight: 1.0
-    enabled: true
-
-  - id: ethan_mollick
-    name: One Useful Thing
-    source_type: rss
-    adapter: rss
-    url: https://www.oneusefulthing.org/feed
-    tier: stable
-    weight: 1.1
-    enabled: true
-
-  - id: gary_marcus
-    name: The Road to AI We Can Trust
-    source_type: rss
-    adapter: rss
-    url: https://garymarcus.substack.com/feed
-    tier: experimental
-    weight: 0.9
-    enabled: false
-
-  - id: github_blog
-    name: GitHub Blog
-    source_type: rss
-    adapter: rss
-    url: https://github.blog/feed/
-    tier: stable
-    weight: 1.0
-    enabled: true
-
-  - id: google_ai_blog
-    name: Google Blog AI
-    source_type: rss
-    adapter: rss
-    url: https://blog.google/technology/ai/rss/
-    tier: stable
-    weight: 1.3
-    enabled: true
-
-  - id: google_deepmind_blog
-    name: Google DeepMind Blog
-    source_type: rss
-    adapter: rss
-    url: https://deepmind.google/discover/blog/rss.xml
-    tier: experimental
-    weight: 1.3
-    enabled: false
-
-  - id: google_developers_blog
-    name: Google Developers Blog
-    source_type: rss
-    adapter: disabled
-    tier: experimental
-    weight: 1.0
-    enabled: false
-
-  - id: google_research_blog
-    name: Google Research Blog
-    source_type: html
-    adapter: html_links
-    url: https://research.google/blog/
-    tier: experimental
-    weight: 1.2
-    enabled: false
-    timeout_seconds: 12
-
-  - id: hn_buzzing_cn
-    name: Hacker News Buzzing Chinese
-    source_type: community
-    adapter: disabled
-    tier: experimental
-    weight: 1.0
-    enabled: false
-
-  - id: hn_ai
-    name: Hacker News AI Threads
-    source_type: community
-    adapter: hn_algolia
-    url: https://hn.algolia.com/api/v1/search_by_date?query=AI&tags=story&hitsPerPage=30
-    tier: stable
-    weight: 1.2
-    enabled: true
-    timeout_seconds: 12
-
-  - id: huggingface_blog
-    name: Hugging Face Blog
-    source_type: rss
-    adapter: rss
-    url: https://huggingface.co/blog/feed.xml
-    tier: stable
-    weight: 1.2
-    enabled: true
-
-  - id: huggingface_daily_papers
-    name: HuggingFace Daily Papers
-    source_type: html
-    adapter: html_links
-    url: https://huggingface.co/papers
-    tier: experimental
-    weight: 1.2
-    enabled: false
-    timeout_seconds: 12
-
-  - id: ithome
-    name: ITHome
-    source_type: rss
-    adapter: rss
-    url: https://www.ithome.com/rss/
-    tier: stable
-    weight: 0.8
-    enabled: true
-
-  - id: lilian_weng
-    name: Lilian Weng LilLog
-    source_type: rss
-    adapter: rss
-    url: https://lilianweng.github.io/index.xml
-    tier: stable
-    weight: 1.2
-    enabled: true
-
-  - id: lmsys_blog
-    name: LMSYS Blog
-    source_type: html
-    adapter: html_links
-    url: https://lmsys.org/blog/
-    tier: experimental
-    weight: 1.1
-    enabled: false
-    timeout_seconds: 12
-
-  - id: marktechpost
-    name: MarkTechPost
-    source_type: rss
-    adapter: rss
-    url: https://www.marktechpost.com/feed/
-    tier: stable
-    weight: 0.8
-    enabled: true
-
-  - id: meta_engineering
-    name: Meta Engineering Blog
-    source_type: rss
-    adapter: rss
-    url: https://engineering.fb.com/feed/
-    tier: stable
-    weight: 1.0
-    enabled: true
-
-  - id: midjourney_updates
-    name: Midjourney Updates
-    source_type: rss
-    adapter: disabled
-    tier: experimental
-    weight: 1.0
-    enabled: false
-
-  - id: minimax_blog
-    name: MiniMax Blog
-    source_type: html
-    adapter: disabled
-    tier: experimental
-    weight: 1.0
-    enabled: false
-
-  - id: mistral_news
-    name: Mistral AI News
-    source_type: html
-    adapter: html_links
-    url: https://mistral.ai/news
-    tier: experimental
-    weight: 1.2
-    enabled: false
-    timeout_seconds: 12
-
-  - id: nathan_lambert
-    name: Interconnects
-    source_type: rss
-    adapter: rss
-    url: https://www.interconnects.ai/feed
-    tier: stable
-    weight: 1.1
-    enabled: true
-
-  - id: openai_news
-    name: OpenAI News
-    source_type: rss
-    adapter: rss
-    url: https://openai.com/news/rss.xml
-    tier: stable
-    weight: 1.5
-    enabled: true
-    timeout_seconds: 12
-
-  - id: openai_alignment
-    name: OpenAI Alignment Research
-    source_type: rss
-    adapter: disabled
-    tier: experimental
-    weight: 1.2
-    enabled: false
-
-  - id: openrouter_announcements
-    name: OpenRouter Announcements
-    source_type: rss
-    adapter: disabled
-    tier: experimental
-    weight: 1.0
-    enabled: false
-
-  - id: qwen_blog_retrieval
-    name: Qwen Blog Retrieval
-    source_type: api
-    adapter: disabled
-    tier: experimental
-    weight: 1.2
-    enabled: false
-
-  - id: runway_news
-    name: Runway News
-    source_type: html
-    adapter: html_links
-    url: https://runwayml.com/news/
-    tier: experimental
-    weight: 1.0
-    enabled: false
-    timeout_seconds: 12
-
-  - id: simon_willison
-    name: Simon Willison Blog
-    source_type: rss
-    adapter: rss
-    url: https://simonwillison.net/atom/everything/
-    tier: stable
-    weight: 1.1
-    enabled: true
-
-  - id: steve_yegge
-    name: Steve Yegge Medium
-    source_type: rss
-    adapter: rss
-    url: https://steve-yegge.medium.com/feed
-    tier: stable
-    weight: 0.9
-    enabled: true
-    timeout_seconds: 12
-
-  - id: suno_blog
-    name: Suno Blog
-    source_type: html
-    adapter: html_links
-    url: https://suno.com/blog
-    tier: experimental
-    weight: 1.0
-    enabled: false
-    timeout_seconds: 12
-
-  - id: techcrunch_ai
-    name: TechCrunch AI
-    source_type: rss
-    adapter: rss
-    url: https://techcrunch.com/category/artificial-intelligence/feed/
-    tier: stable
-    weight: 1.0
-    enabled: true
-
-  - id: the_decoder
-    name: The Decoder AI News
-    source_type: rss
-    adapter: rss
-    url: https://the-decoder.com/feed/
-    tier: stable
-    weight: 1.1
-    enabled: true
-
-  - id: the_verge_ai
-    name: The Verge AI
-    source_type: rss
-    adapter: rss
-    url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
-    tier: stable
-    weight: 1.0
-    enabled: true
-
-  - id: tomer_tunguz
-    name: Tomer Tunguz Blog
-    source_type: rss
-    adapter: rss
-    url: https://tomtunguz.com/index.xml
-    tier: experimental
-    weight: 0.8
-    enabled: false
-
-  - id: wechat_ec80fbe8
-    name: 公众号：百度智能云（文心）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_830a497c
-    name: 公众号：豆包（字节）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_f6145237
-    name: 公众号：火山引擎
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_step_a1bcaad3
-    name: 公众号：阶跃星辰（Step）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_joyai_c4de6e58
-    name: 公众号：京东JoyAI
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_ai_20ac01bc
-    name: 公众号：卡尔的AI沃茨
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_ai_ef4e7c0b
-    name: 公众号：可灵AI（快手·视频）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_5eadf2ef
-    name: 公众号：昆仑万维（天工）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_longcat_3a10a3e9
-    name: 公众号：龙猫LongCat（美团）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_ling_f5f917a8
-    name: 公众号：蚂蚁百灵（Ling）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_minicpm_ce22a6ef
-    name: 公众号：面壁智能（MiniCPM）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_app_eec4b8bc
-    name: 公众号：千问APP（阿里）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_vidu_b0b17916
-    name: 公众号：生数科技（Vidu·视频）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_7f05e989
-    name: 公众号：数字生命卡兹克
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_ebf914cf
-    name: 公众号：腾讯混元
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_aa5a4308
-    name: 公众号：腾讯元宝
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_91038a15
-    name: 公众号：通义实验室（千问）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_dots_llm_ef8d0fd4
-    name: 公众号：小红书技术（dots.llm）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_mimo_376db3d6
-    name: 公众号：小米 MiMo
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_kimi_14c52d21
-    name: 公众号：月之暗面（Kimi）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_glm_e65b0411
-    name: 公众号：智谱（GLM）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_deepseek_1b276d0e
-    name: 公众号：DeepSeek（深度求索）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: wechat_minimax_a57856fa
-    name: 公众号：MiniMax（稀宇科技）
-    source_type: wechat
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_alibaba_cloud
-    name: X：阿里云 / Alibaba Cloud (@alibaba_cloud)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_ayi_ainotes
-    name: X：阿易 AI Notes (@AYi_AInotes)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_baidu_inc
-    name: X：百度 Baidu (@Baidu_Inc)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_dotey
-    name: X：宝玉 (@dotey)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_siliconflowai
-    name: X：硅基流动 SiliconFlow (@SiliconFlowAI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_op7418
-    name: X：歸藏 (@op7418)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_mingchikuo
-    name: X：郭明錤 Ming-Chi Kuo (@mingchikuo)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_hongming731
-    name: X：洪明 (@hongming731)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_huaweicloud1
-    name: X：华为云 (@HuaweiCloud1)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_stepfun_ai
-    name: X：阶跃星辰 StepFun (@StepFun_ai)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_khazix0918
-    name: X：卡兹克 (@Khazix0918)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_kling_ai
-    name: X：可灵 Kling AI (@Kling_ai)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x__luofuli
-    name: X：罗福莉 (@_LuoFuli)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_antlingagi
-    name: X：蚂蚁百灵 (@AntLingAGI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_openbmb
-    name: X：面壁智能 OpenBMB (@OpenBMB)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_sensetime_ai
-    name: X：商汤 SenseTime (@SenseTime_AI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_shao__meng
-    name: X：邵猛 (@shao__meng)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_tencenthunyuan
-    name: X：腾讯混元 (@TencentHunyuan)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_alibaba_qwen
-    name: X：通义千问 / Qwen (@Alibaba_Qwen)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_frxiaobei
-    name: X：小北 (@frxiaobei)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_xiaohu
-    name: X：小互 (@xiaohu)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_xiaomimimo
-    name: X：小米 MiMo (@XiaomiMiMo)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_sainingxie
-    name: X：谢赛宁 (@sainingxie)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_zai_org
-    name: X：智谱 Z.ai (@Zai_org)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_aiatmeta
-    name: X：AI at Meta (@AIatMeta)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_aisafetymemes
-    name: X：AI Safety Memes (@AISafetyMemes)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x__akhaliq
-    name: X：AK (@_akhaliq)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_ammaar
-    name: X：Ammaar Reshi (@ammaar)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_karpathy
-    name: X：Andrej Karpathy (@karpathy)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_milichab
-    name: X：Andrew Milich (@milichab)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_anthropicai
-    name: X：Anthropic (@AnthropicAI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_artificialanlys
-    name: X：Artificial Analysis (@ArtificialAnlys)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_berryxia
-    name: X：Berry Xia (@berryxia)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_bcherny
-    name: X：Boris Cherny (@bcherny)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_cb_doge
-    name: X：cb_doge (@cb_doge)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_chatgptapp
-    name: X：ChatGPT (@ChatGPTapp)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_claudeai
-    name: X：Claude (@claudeai)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_claudedevs
-    name: X：Claude Devs (@ClaudeDevs)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_darioamodei
-    name: X：Dario Amodei (@DarioAmodei)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_deedydas
-    name: X：Deedy Das (@deedydas)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_demishassabis
-    name: X：Demis Hassabis (@demishassabis)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_elonmusk
-    name: X：Elon Musk (@elonmusk, xAI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_omarsar0
-    name: X：Elvis Saravia (@omarsar0, DAIR.AI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_emostaque
-    name: X：Emad Mostaque (@EMostaque)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_epochairesearch
-    name: X：Epoch AI (@EpochAIResearch)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_ericmitchellai
-    name: X：Eric Mitchell (@ericmitchellai)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_ericzakariasson
-    name: X：Eric Zakariasson (@ericzakariasson)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_emollick
-    name: X：Ethan Mollick (@emollick)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_drfeifei
-    name: X：Fei-Fei Li (@drfeifei, World Labs)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_fofrai
-    name: X：fofr (@fofrAI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_fchollet
-    name: X：Francois Chollet (@fchollet)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_gabriel1
-    name: X：Gabriel (@gabriel1)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_geminiapp
-    name: X：Gemini (@GeminiApp)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_googleai
-    name: X：Google AI (@GoogleAI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_googleaidevs
-    name: X：Google AI for Developers (@googleaidevs)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_googledeepmind
-    name: X：Google DeepMind (@GoogleDeepMind)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_gdb
-    name: X：Greg Brockman (@gdb)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_jxnlco
-    name: X：Jason Liu (@jxnlco)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_jeffdean
-    name: X：Jeff Dean (@JeffDean)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_drjimfan
-    name: X：Jim Fan (@DrJimFan)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_joshwoodward
-    name: X：Josh Woodward (@joshwoodward, Google Labs VP)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_karminski3
-    name: X：karminski (@karminski3)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_kimmonismus
-    name: X：Kim (@kimmonismus)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_kimi_moonshot
-    name: X：Kimi.ai (@Kimi_Moonshot)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_krea_ai
-    name: X：Krea AI (@krea_ai)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_leerob
-    name: X：Lee Robinson (@leerob)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_lilianweng
-    name: X：Lilian Weng (@lilianweng)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_officiallogank
-    name: X：Logan Kilpatrick (@OfficialLoganK)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_lumalabsai
-    name: X：Luma AI (@LumaLabsAI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_mntruell
-    name: X：Michael Truell (@mntruell)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_msftresearch
-    name: X：Microsoft Research (@MSFTResearch)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_midjourney
-    name: X：Midjourney (@midjourney)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_minimax_ai
-    name: X：MiniMax (@MiniMax_AI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_mistralai
-    name: X：Mistral AI (@MistralAI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_natolambert
-    name: X：Nathan Lambert (@natolambert)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_polynoamial
-    name: X：Noam Brown (@polynoamial)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_notebooklm
-    name: X：NotebookLM (@NotebookLM)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_odysseyml
-    name: X：Odyssey (@odysseyml)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_openai
-    name: X：OpenAI (@OpenAI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_openaidevs
-    name: X：OpenAI Developers (@OpenAIDevs)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_openclaw
-    name: X：OpenClaw (@openclaw)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_opencode
-    name: X：opencode (@opencode)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_openrouter
-    name: X：OpenRouter (@OpenRouter)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_oran_ge
-    name: X：Oran Ge (@oran_ge)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_perplexity_ai
-    name: X：Perplexity (@perplexity_ai)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_steipete
-    name: X：Peter Steinberger (@steipete)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_pixverse_
-    name: X：PixVerse (@PixVerse_)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_replit
-    name: X：Replit (@Replit)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_rohanpaul_ai
-    name: X：Rohan Paul (@rohanpaul_ai)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_runwayml
-    name: X：Runway (@runwayml)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_sama
-    name: X：Sam Altman (@sama)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_satyanadella
-    name: X：Satya Nadella (@satyanadella)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_semianalysis_
-    name: X：SemiAnalysis (@SemiAnalysis_)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_haoailab
-    name: X：Sky Computing Lab (@haoailab)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_sundarpichai
-    name: X：Sundar Pichai (@sundarpichai)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_suno
-    name: X：Suno (@suno)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_swyx
-    name: X：swyx (@swyx)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_testingcatalog
-    name: X：Testing Catalog (@testingcatalog)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_trq212
-    name: X：Thariq (@trq212)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_thsottiaux
-    name: X：Tibo (@thsottiaux)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_viggleai
-    name: X：Viggle AI (@ViggleAI)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_vista8
-    name: X：Vista (@vista8)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_thexpin
-    name: X：X.PIN (@thexpin)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_xai
-    name: X：xAI (@xai)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_ylecun
-    name: X：Yann LeCun (@ylecun)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_yuchenj_uw
-    name: X：Yuchen Jin (@Yuchenj_UW)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: x_zho_zho_zho
-    name: X：ZHO (@ZHO_ZHO_ZHO)
-    source_type: x
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
-
-  - id: xai_news
-    name: xAI：News（网页）
-    source_type: html
-    adapter: disabled
-    tier: experimental
-    weight: 0.6
-    enabled: false
+- id: inclusionai_github_repos
+  name: inclusionAI GitHub Repositories
+  source_type: github
+  adapter: github_org_repos
+  url: https://api.github.com/orgs/inclusionAI/repos?sort=created&direction=desc&per_page=20
+  tier: stable
+  weight: 1.6
+  enabled: true
+  timeout_seconds: 12
+- id: inclusionai_hf_models
+  name: inclusionAI HuggingFace Models
+  source_type: model
+  adapter: huggingface_models
+  url: https://huggingface.co/api/models?author=inclusionAI&sort=createdAt&direction=-1&limit=20
+  tier: stable
+  weight: 1.6
+  enabled: true
+  timeout_seconds: 12
+- id: zhipu_research
+  name: Zhipu Research
+  source_type: html
+  adapter: disabled
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: byte_seed_research
+  name: ByteDance Seed Research Feed
+  source_type: html
+  adapter: disabled
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: anthropic_news
+  name: Anthropic Newsroom
+  source_type: html
+  adapter: html_links
+  url: https://www.anthropic.com/news
+  tier: experimental
+  weight: 1.5
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: anthropic_research
+  name: Anthropic Research
+  source_type: html
+  adapter: html_links
+  url: https://www.anthropic.com/research
+  tier: experimental
+  weight: 1.5
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: anthropic_institute
+  name: Anthropic The Institute
+  source_type: html
+  adapter: disabled
+  tier: experimental
+  weight: 1.3
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: anthropic_transformer_circuits
+  name: Anthropic Transformer Circuits
+  source_type: html
+  adapter: html_links
+  url: https://transformer-circuits.pub/
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: apple_ml_research
+  name: Apple Machine Learning Research
+  source_type: rss
+  adapter: rss
+  url: https://machinelearning.apple.com/rss.xml
+  tier: stable
+  weight: 1.3
+  enabled: true
+- id: apple_newsroom
+  name: Apple Newsroom
+  source_type: rss
+  adapter: rss
+  url: https://www.apple.com/newsroom/rss-feed.rss
+  tier: stable
+  weight: 1.0
+  enabled: true
+- id: ars_technica_ai
+  name: Ars Technica AI
+  source_type: rss
+  adapter: rss
+  url: https://feeds.arstechnica.com/arstechnica/technology-lab
+  tier: stable
+  weight: 1.1
+  enabled: true
+- id: artificial_intelligence_news
+  name: Artificial Intelligence News
+  source_type: rss
+  adapter: rss
+  url: https://www.artificialintelligence-news.com/feed/
+  tier: stable
+  weight: 1.0
+  enabled: true
+- id: berkeley_rdi_blog
+  name: Berkeley RDI Blog
+  source_type: html
+  adapter: html_links
+  url: https://rdi.berkeley.edu/blog
+  tier: experimental
+  weight: 1.1
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: claude_code_releases
+  name: Claude Code GitHub Releases
+  source_type: github
+  adapter: github_releases
+  url: https://github.com/anthropics/claude-code/releases.atom
+  tier: stable
+  weight: 1.4
+  enabled: true
+  timeout_seconds: 12
+- id: claude_blog
+  name: Claude Blog
+  source_type: html
+  adapter: html_links
+  url: https://www.anthropic.com/claude
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: cloudflare_blog
+  name: Cloudflare Blog
+  source_type: rss
+  adapter: rss
+  url: https://blog.cloudflare.com/rss/
+  tier: stable
+  weight: 1.0
+  enabled: true
+- id: cmu_ml_blog
+  name: CMU Machine Learning Blog
+  source_type: rss
+  adapter: rss
+  url: https://blog.ml.cmu.edu/feed/
+  tier: stable
+  weight: 1.1
+  enabled: true
+- id: cursor_blog
+  name: Cursor Blog
+  source_type: html
+  adapter: html_links
+  url: https://cursor.com/blog
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: dario_amodei_blog
+  name: Dario Amodei Blog
+  source_type: html
+  adapter: disabled
+  tier: experimental
+  weight: 1.0
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: dwarkesh_patel
+  name: Dwarkesh Patel Podcast and Blog
+  source_type: rss
+  adapter: rss
+  url: https://www.dwarkeshpatel.com/feed
+  tier: stable
+  weight: 1.0
+  enabled: true
+- id: ethan_mollick
+  name: One Useful Thing
+  source_type: rss
+  adapter: rss
+  url: https://www.oneusefulthing.org/feed
+  tier: stable
+  weight: 1.1
+  enabled: true
+- id: gary_marcus
+  name: The Road to AI We Can Trust
+  source_type: rss
+  adapter: rss
+  url: https://garymarcus.substack.com/feed
+  tier: experimental
+  weight: 0.9
+  enabled: true
+  run_mode: shadow
+- id: github_blog
+  name: GitHub Blog
+  source_type: rss
+  adapter: rss
+  url: https://github.blog/feed/
+  tier: stable
+  weight: 1.0
+  enabled: true
+- id: google_ai_blog
+  name: Google Blog AI
+  source_type: rss
+  adapter: rss
+  url: https://blog.google/technology/ai/rss/
+  tier: stable
+  weight: 1.3
+  enabled: true
+- id: google_deepmind_blog
+  name: Google DeepMind Blog
+  source_type: html
+  adapter: html_links
+  url: https://deepmind.google/blog/
+  tier: experimental
+  weight: 1.3
+  enabled: true
+  run_mode: shadow
+- id: google_developers_blog
+  name: Google Developers Blog
+  source_type: rss
+  adapter: disabled
+  tier: experimental
+  weight: 1.0
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: google_research_blog
+  name: Google Research Blog
+  source_type: html
+  adapter: html_links
+  url: https://research.google/blog/
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: hn_buzzing_cn
+  name: Hacker News Buzzing Chinese
+  source_type: community
+  adapter: disabled
+  tier: experimental
+  weight: 1.0
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: hn_ai
+  name: Hacker News AI Threads
+  source_type: community
+  adapter: hn_algolia
+  url: https://hn.algolia.com/api/v1/search_by_date?query=AI&tags=story&hitsPerPage=30
+  tier: stable
+  weight: 1.2
+  enabled: true
+  timeout_seconds: 12
+- id: huggingface_blog
+  name: Hugging Face Blog
+  source_type: rss
+  adapter: rss
+  url: https://huggingface.co/blog/feed.xml
+  tier: stable
+  weight: 1.2
+  enabled: true
+- id: huggingface_daily_papers
+  name: HuggingFace Daily Papers
+  source_type: html
+  adapter: html_links
+  url: https://huggingface.co/papers
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: ithome
+  name: ITHome
+  source_type: rss
+  adapter: rss
+  url: https://www.ithome.com/rss/
+  tier: stable
+  weight: 0.8
+  enabled: true
+- id: lilian_weng
+  name: Lilian Weng LilLog
+  source_type: rss
+  adapter: rss
+  url: https://lilianweng.github.io/index.xml
+  tier: stable
+  weight: 1.2
+  enabled: true
+- id: lmsys_blog
+  name: LMSYS Blog
+  source_type: html
+  adapter: html_links
+  url: https://lmsys.org/blog/
+  tier: experimental
+  weight: 1.1
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: marktechpost
+  name: MarkTechPost
+  source_type: rss
+  adapter: rss
+  url: https://www.marktechpost.com/feed/
+  tier: stable
+  weight: 0.8
+  enabled: true
+- id: meta_engineering
+  name: Meta Engineering Blog
+  source_type: rss
+  adapter: rss
+  url: https://engineering.fb.com/feed/
+  tier: stable
+  weight: 1.0
+  enabled: true
+- id: midjourney_updates
+  name: Midjourney Updates
+  source_type: rss
+  adapter: disabled
+  tier: experimental
+  weight: 1.0
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: minimax_blog
+  name: MiniMax Blog
+  source_type: html
+  adapter: disabled
+  tier: experimental
+  weight: 1.0
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: mistral_news
+  name: Mistral AI News
+  source_type: html
+  adapter: html_links
+  url: https://mistral.ai/news
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: nathan_lambert
+  name: Interconnects
+  source_type: rss
+  adapter: rss
+  url: https://www.interconnects.ai/feed
+  tier: stable
+  weight: 1.1
+  enabled: true
+- id: openai_news
+  name: OpenAI News
+  source_type: rss
+  adapter: rss
+  url: https://openai.com/news/rss.xml
+  tier: stable
+  weight: 1.5
+  enabled: true
+  timeout_seconds: 12
+- id: openai_alignment
+  name: OpenAI Alignment Research
+  source_type: rss
+  adapter: disabled
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: openrouter_announcements
+  name: OpenRouter Announcements
+  source_type: rss
+  adapter: disabled
+  tier: experimental
+  weight: 1.0
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: qwen_blog_retrieval
+  name: Qwen Blog Retrieval
+  source_type: api
+  adapter: disabled
+  tier: experimental
+  weight: 1.2
+  enabled: true
+  run_mode: shadow
+  quarantined: true
+- id: runway_news
+  name: Runway News
+  source_type: html
+  adapter: html_links
+  url: https://runwayml.com/news/
+  tier: experimental
+  weight: 1.0
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: simon_willison
+  name: Simon Willison Blog
+  source_type: rss
+  adapter: rss
+  url: https://simonwillison.net/atom/everything/
+  tier: stable
+  weight: 1.1
+  enabled: true
+- id: steve_yegge
+  name: Steve Yegge Medium
+  source_type: rss
+  adapter: rss
+  url: https://steve-yegge.medium.com/feed
+  tier: stable
+  weight: 0.9
+  enabled: true
+  timeout_seconds: 12
+- id: suno_blog
+  name: Suno Blog
+  source_type: html
+  adapter: html_links
+  url: https://suno.com/blog
+  tier: experimental
+  weight: 1.0
+  enabled: true
+  timeout_seconds: 12
+  run_mode: shadow
+- id: techcrunch_ai
+  name: TechCrunch AI
+  source_type: rss
+  adapter: rss
+  url: https://techcrunch.com/category/artificial-intelligence/feed/
+  tier: stable
+  weight: 1.0
+  enabled: true
+- id: the_decoder
+  name: The Decoder AI News
+  source_type: rss
+  adapter: rss
+  url: https://the-decoder.com/feed/
+  tier: stable
+  weight: 1.1
+  enabled: true
+- id: the_verge_ai
+  name: The Verge AI
+  source_type: rss
+  adapter: rss
+  url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
+  tier: stable
+  weight: 1.0
+  enabled: true
+- id: tomer_tunguz
+  name: Tomer Tunguz Blog
+  source_type: rss
+  adapter: rss
+  url: https://tomtunguz.com/index.xml
+  tier: experimental
+  weight: 0.8
+  enabled: true
+  run_mode: shadow
+- id: wechat_ec80fbe8
+  name: 公众号：百度智能云（文心）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_ec80fbe8.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_830a497c
+  name: 公众号：豆包（字节）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_830a497c.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_f6145237
+  name: 公众号：火山引擎
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_f6145237.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_step_a1bcaad3
+  name: 公众号：阶跃星辰（Step）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_step_a1bcaad3.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_joyai_c4de6e58
+  name: 公众号：京东JoyAI
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_joyai_c4de6e58.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_ai_20ac01bc
+  name: 公众号：卡尔的AI沃茨
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_ai_20ac01bc.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_ai_ef4e7c0b
+  name: 公众号：可灵AI（快手·视频）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_ai_ef4e7c0b.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_5eadf2ef
+  name: 公众号：昆仑万维（天工）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_5eadf2ef.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_longcat_3a10a3e9
+  name: 公众号：龙猫LongCat（美团）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_longcat_3a10a3e9.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_ling_f5f917a8
+  name: 公众号：蚂蚁百灵（Ling）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_ling_f5f917a8.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_minicpm_ce22a6ef
+  name: 公众号：面壁智能（MiniCPM）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_minicpm_ce22a6ef.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_app_eec4b8bc
+  name: 公众号：千问APP（阿里）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_app_eec4b8bc.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_vidu_b0b17916
+  name: 公众号：生数科技（Vidu·视频）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_vidu_b0b17916.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_7f05e989
+  name: 公众号：数字生命卡兹克
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_7f05e989.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_ebf914cf
+  name: 公众号：腾讯混元
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_ebf914cf.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_aa5a4308
+  name: 公众号：腾讯元宝
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_aa5a4308.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_91038a15
+  name: 公众号：通义实验室（千问）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_91038a15.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_dots_llm_ef8d0fd4
+  name: 公众号：小红书技术（dots.llm）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_dots_llm_ef8d0fd4.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_mimo_376db3d6
+  name: 公众号：小米 MiMo
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_mimo_376db3d6.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_kimi_14c52d21
+  name: 公众号：月之暗面（Kimi）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_kimi_14c52d21.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_glm_e65b0411
+  name: 公众号：智谱（GLM）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_glm_e65b0411.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_deepseek_1b276d0e
+  name: 公众号：DeepSeek（深度求索）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_deepseek_1b276d0e.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: wechat_minimax_a57856fa
+  name: 公众号：MiniMax（稀宇科技）
+  source_type: wechat
+  adapter: rss_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://WECHAT_RSS_BASE/wechat_minimax_a57856fa.xml
+  run_mode: shadow
+  config:
+    proxy: we-mp-rss/rsshub-compatible
+- id: x_alibaba_cloud
+  name: X：阿里云 / Alibaba Cloud (@alibaba_cloud)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/alibaba_cloud
+  run_mode: shadow
+  config:
+    username: alibaba_cloud
+    proxy: rsshub/twitter/user
+- id: x_ayi_ainotes
+  name: X：阿易 AI Notes (@AYi_AInotes)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/AYi_AInotes
+  run_mode: shadow
+  config:
+    username: AYi_AInotes
+    proxy: rsshub/twitter/user
+- id: x_baidu_inc
+  name: X：百度 Baidu (@Baidu_Inc)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/Baidu_Inc
+  run_mode: shadow
+  config:
+    username: Baidu_Inc
+    proxy: rsshub/twitter/user
+- id: x_dotey
+  name: X：宝玉 (@dotey)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/dotey
+  run_mode: shadow
+  config:
+    username: dotey
+    proxy: rsshub/twitter/user
+- id: x_siliconflowai
+  name: X：硅基流动 SiliconFlow (@SiliconFlowAI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/SiliconFlowAI
+  run_mode: shadow
+  config:
+    username: SiliconFlowAI
+    proxy: rsshub/twitter/user
+- id: x_op7418
+  name: X：歸藏 (@op7418)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/op7418
+  run_mode: shadow
+  config:
+    username: op7418
+    proxy: rsshub/twitter/user
+- id: x_mingchikuo
+  name: X：郭明錤 Ming-Chi Kuo (@mingchikuo)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/mingchikuo
+  run_mode: shadow
+  config:
+    username: mingchikuo
+    proxy: rsshub/twitter/user
+- id: x_hongming731
+  name: X：洪明 (@hongming731)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/hongming731
+  run_mode: shadow
+  config:
+    username: hongming731
+    proxy: rsshub/twitter/user
+- id: x_huaweicloud1
+  name: X：华为云 (@HuaweiCloud1)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/HuaweiCloud1
+  run_mode: shadow
+  config:
+    username: HuaweiCloud1
+    proxy: rsshub/twitter/user
+- id: x_stepfun_ai
+  name: X：阶跃星辰 StepFun (@StepFun_ai)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/StepFun_ai
+  run_mode: shadow
+  config:
+    username: StepFun_ai
+    proxy: rsshub/twitter/user
+- id: x_khazix0918
+  name: X：卡兹克 (@Khazix0918)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/Khazix0918
+  run_mode: shadow
+  config:
+    username: Khazix0918
+    proxy: rsshub/twitter/user
+- id: x_kling_ai
+  name: X：可灵 Kling AI (@Kling_ai)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/Kling_ai
+  run_mode: shadow
+  config:
+    username: Kling_ai
+    proxy: rsshub/twitter/user
+- id: x__luofuli
+  name: X：罗福莉 (@_LuoFuli)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/_LuoFuli
+  run_mode: shadow
+  config:
+    username: _LuoFuli
+    proxy: rsshub/twitter/user
+- id: x_antlingagi
+  name: X：蚂蚁百灵 (@AntLingAGI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/AntLingAGI
+  run_mode: shadow
+  config:
+    username: AntLingAGI
+    proxy: rsshub/twitter/user
+- id: x_openbmb
+  name: X：面壁智能 OpenBMB (@OpenBMB)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/OpenBMB
+  run_mode: shadow
+  config:
+    username: OpenBMB
+    proxy: rsshub/twitter/user
+- id: x_sensetime_ai
+  name: X：商汤 SenseTime (@SenseTime_AI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/SenseTime_AI
+  run_mode: shadow
+  config:
+    username: SenseTime_AI
+    proxy: rsshub/twitter/user
+- id: x_shao__meng
+  name: X：邵猛 (@shao__meng)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/shao__meng
+  run_mode: shadow
+  config:
+    username: shao__meng
+    proxy: rsshub/twitter/user
+- id: x_tencenthunyuan
+  name: X：腾讯混元 (@TencentHunyuan)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/TencentHunyuan
+  run_mode: shadow
+  config:
+    username: TencentHunyuan
+    proxy: rsshub/twitter/user
+- id: x_alibaba_qwen
+  name: X：通义千问 / Qwen (@Alibaba_Qwen)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/Alibaba_Qwen
+  run_mode: shadow
+  config:
+    username: Alibaba_Qwen
+    proxy: rsshub/twitter/user
+- id: x_frxiaobei
+  name: X：小北 (@frxiaobei)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/frxiaobei
+  run_mode: shadow
+  config:
+    username: frxiaobei
+    proxy: rsshub/twitter/user
+- id: x_xiaohu
+  name: X：小互 (@xiaohu)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/xiaohu
+  run_mode: shadow
+  config:
+    username: xiaohu
+    proxy: rsshub/twitter/user
+- id: x_xiaomimimo
+  name: X：小米 MiMo (@XiaomiMiMo)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/XiaomiMiMo
+  run_mode: shadow
+  config:
+    username: XiaomiMiMo
+    proxy: rsshub/twitter/user
+- id: x_sainingxie
+  name: X：谢赛宁 (@sainingxie)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/sainingxie
+  run_mode: shadow
+  config:
+    username: sainingxie
+    proxy: rsshub/twitter/user
+- id: x_zai_org
+  name: X：智谱 Z.ai (@Zai_org)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/Zai_org
+  run_mode: shadow
+  config:
+    username: Zai_org
+    proxy: rsshub/twitter/user
+- id: x_aiatmeta
+  name: X：AI at Meta (@AIatMeta)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/AIatMeta
+  run_mode: shadow
+  config:
+    username: AIatMeta
+    proxy: rsshub/twitter/user
+- id: x_aisafetymemes
+  name: X：AI Safety Memes (@AISafetyMemes)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/AISafetyMemes
+  run_mode: shadow
+  config:
+    username: AISafetyMemes
+    proxy: rsshub/twitter/user
+- id: x__akhaliq
+  name: X：AK (@_akhaliq)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/_akhaliq
+  run_mode: shadow
+  config:
+    username: _akhaliq
+    proxy: rsshub/twitter/user
+- id: x_ammaar
+  name: X：Ammaar Reshi (@ammaar)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/ammaar
+  run_mode: shadow
+  config:
+    username: ammaar
+    proxy: rsshub/twitter/user
+- id: x_karpathy
+  name: X：Andrej Karpathy (@karpathy)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/karpathy
+  run_mode: shadow
+  config:
+    username: karpathy
+    proxy: rsshub/twitter/user
+- id: x_milichab
+  name: X：Andrew Milich (@milichab)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/milichab
+  run_mode: shadow
+  config:
+    username: milichab
+    proxy: rsshub/twitter/user
+- id: x_anthropicai
+  name: X：Anthropic (@AnthropicAI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/AnthropicAI
+  run_mode: shadow
+  config:
+    username: AnthropicAI
+    proxy: rsshub/twitter/user
+- id: x_artificialanlys
+  name: X：Artificial Analysis (@ArtificialAnlys)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/ArtificialAnlys
+  run_mode: shadow
+  config:
+    username: ArtificialAnlys
+    proxy: rsshub/twitter/user
+- id: x_berryxia
+  name: X：Berry Xia (@berryxia)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/berryxia
+  run_mode: shadow
+  config:
+    username: berryxia
+    proxy: rsshub/twitter/user
+- id: x_bcherny
+  name: X：Boris Cherny (@bcherny)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/bcherny
+  run_mode: shadow
+  config:
+    username: bcherny
+    proxy: rsshub/twitter/user
+- id: x_cb_doge
+  name: X：cb_doge (@cb_doge)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/cb_doge
+  run_mode: shadow
+  config:
+    username: cb_doge
+    proxy: rsshub/twitter/user
+- id: x_chatgptapp
+  name: X：ChatGPT (@ChatGPTapp)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/ChatGPTapp
+  run_mode: shadow
+  config:
+    username: ChatGPTapp
+    proxy: rsshub/twitter/user
+- id: x_claudeai
+  name: X：Claude (@claudeai)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/claudeai
+  run_mode: shadow
+  config:
+    username: claudeai
+    proxy: rsshub/twitter/user
+- id: x_claudedevs
+  name: X：Claude Devs (@ClaudeDevs)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/ClaudeDevs
+  run_mode: shadow
+  config:
+    username: ClaudeDevs
+    proxy: rsshub/twitter/user
+- id: x_darioamodei
+  name: X：Dario Amodei (@DarioAmodei)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/DarioAmodei
+  run_mode: shadow
+  config:
+    username: DarioAmodei
+    proxy: rsshub/twitter/user
+- id: x_deedydas
+  name: X：Deedy Das (@deedydas)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/deedydas
+  run_mode: shadow
+  config:
+    username: deedydas
+    proxy: rsshub/twitter/user
+- id: x_demishassabis
+  name: X：Demis Hassabis (@demishassabis)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/demishassabis
+  run_mode: shadow
+  config:
+    username: demishassabis
+    proxy: rsshub/twitter/user
+- id: x_elonmusk
+  name: X：Elon Musk (@elonmusk, xAI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/elonmusk
+  run_mode: shadow
+  config:
+    username: elonmusk
+    proxy: rsshub/twitter/user
+- id: x_omarsar0
+  name: X：Elvis Saravia (@omarsar0, DAIR.AI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/omarsar0
+  run_mode: shadow
+  config:
+    username: omarsar0
+    proxy: rsshub/twitter/user
+- id: x_emostaque
+  name: X：Emad Mostaque (@EMostaque)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/EMostaque
+  run_mode: shadow
+  config:
+    username: EMostaque
+    proxy: rsshub/twitter/user
+- id: x_epochairesearch
+  name: X：Epoch AI (@EpochAIResearch)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/EpochAIResearch
+  run_mode: shadow
+  config:
+    username: EpochAIResearch
+    proxy: rsshub/twitter/user
+- id: x_ericmitchellai
+  name: X：Eric Mitchell (@ericmitchellai)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/ericmitchellai
+  run_mode: shadow
+  config:
+    username: ericmitchellai
+    proxy: rsshub/twitter/user
+- id: x_ericzakariasson
+  name: X：Eric Zakariasson (@ericzakariasson)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/ericzakariasson
+  run_mode: shadow
+  config:
+    username: ericzakariasson
+    proxy: rsshub/twitter/user
+- id: x_emollick
+  name: X：Ethan Mollick (@emollick)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/emollick
+  run_mode: shadow
+  config:
+    username: emollick
+    proxy: rsshub/twitter/user
+- id: x_drfeifei
+  name: X：Fei-Fei Li (@drfeifei, World Labs)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/drfeifei
+  run_mode: shadow
+  config:
+    username: drfeifei
+    proxy: rsshub/twitter/user
+- id: x_fofrai
+  name: X：fofr (@fofrAI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/fofrAI
+  run_mode: shadow
+  config:
+    username: fofrAI
+    proxy: rsshub/twitter/user
+- id: x_fchollet
+  name: X：Francois Chollet (@fchollet)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/fchollet
+  run_mode: shadow
+  config:
+    username: fchollet
+    proxy: rsshub/twitter/user
+- id: x_gabriel1
+  name: X：Gabriel (@gabriel1)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/gabriel1
+  run_mode: shadow
+  config:
+    username: gabriel1
+    proxy: rsshub/twitter/user
+- id: x_geminiapp
+  name: X：Gemini (@GeminiApp)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/GeminiApp
+  run_mode: shadow
+  config:
+    username: GeminiApp
+    proxy: rsshub/twitter/user
+- id: x_googleai
+  name: X：Google AI (@GoogleAI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/GoogleAI
+  run_mode: shadow
+  config:
+    username: GoogleAI
+    proxy: rsshub/twitter/user
+- id: x_googleaidevs
+  name: X：Google AI for Developers (@googleaidevs)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/googleaidevs
+  run_mode: shadow
+  config:
+    username: googleaidevs
+    proxy: rsshub/twitter/user
+- id: x_googledeepmind
+  name: X：Google DeepMind (@GoogleDeepMind)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/GoogleDeepMind
+  run_mode: shadow
+  config:
+    username: GoogleDeepMind
+    proxy: rsshub/twitter/user
+- id: x_gdb
+  name: X：Greg Brockman (@gdb)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/gdb
+  run_mode: shadow
+  config:
+    username: gdb
+    proxy: rsshub/twitter/user
+- id: x_jxnlco
+  name: X：Jason Liu (@jxnlco)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/jxnlco
+  run_mode: shadow
+  config:
+    username: jxnlco
+    proxy: rsshub/twitter/user
+- id: x_jeffdean
+  name: X：Jeff Dean (@JeffDean)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/JeffDean
+  run_mode: shadow
+  config:
+    username: JeffDean
+    proxy: rsshub/twitter/user
+- id: x_drjimfan
+  name: X：Jim Fan (@DrJimFan)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/DrJimFan
+  run_mode: shadow
+  config:
+    username: DrJimFan
+    proxy: rsshub/twitter/user
+- id: x_joshwoodward
+  name: X：Josh Woodward (@joshwoodward, Google Labs VP)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/joshwoodward
+  run_mode: shadow
+  config:
+    username: joshwoodward
+    proxy: rsshub/twitter/user
+- id: x_karminski3
+  name: X：karminski (@karminski3)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/karminski3
+  run_mode: shadow
+  config:
+    username: karminski3
+    proxy: rsshub/twitter/user
+- id: x_kimmonismus
+  name: X：Kim (@kimmonismus)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/kimmonismus
+  run_mode: shadow
+  config:
+    username: kimmonismus
+    proxy: rsshub/twitter/user
+- id: x_kimi_moonshot
+  name: X：Kimi.ai (@Kimi_Moonshot)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/Kimi_Moonshot
+  run_mode: shadow
+  config:
+    username: Kimi_Moonshot
+    proxy: rsshub/twitter/user
+- id: x_krea_ai
+  name: X：Krea AI (@krea_ai)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/krea_ai
+  run_mode: shadow
+  config:
+    username: krea_ai
+    proxy: rsshub/twitter/user
+- id: x_leerob
+  name: X：Lee Robinson (@leerob)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/leerob
+  run_mode: shadow
+  config:
+    username: leerob
+    proxy: rsshub/twitter/user
+- id: x_lilianweng
+  name: X：Lilian Weng (@lilianweng)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/lilianweng
+  run_mode: shadow
+  config:
+    username: lilianweng
+    proxy: rsshub/twitter/user
+- id: x_officiallogank
+  name: X：Logan Kilpatrick (@OfficialLoganK)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/OfficialLoganK
+  run_mode: shadow
+  config:
+    username: OfficialLoganK
+    proxy: rsshub/twitter/user
+- id: x_lumalabsai
+  name: X：Luma AI (@LumaLabsAI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/LumaLabsAI
+  run_mode: shadow
+  config:
+    username: LumaLabsAI
+    proxy: rsshub/twitter/user
+- id: x_mntruell
+  name: X：Michael Truell (@mntruell)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/mntruell
+  run_mode: shadow
+  config:
+    username: mntruell
+    proxy: rsshub/twitter/user
+- id: x_msftresearch
+  name: X：Microsoft Research (@MSFTResearch)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/MSFTResearch
+  run_mode: shadow
+  config:
+    username: MSFTResearch
+    proxy: rsshub/twitter/user
+- id: x_midjourney
+  name: X：Midjourney (@midjourney)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/midjourney
+  run_mode: shadow
+  config:
+    username: midjourney
+    proxy: rsshub/twitter/user
+- id: x_minimax_ai
+  name: X：MiniMax (@MiniMax_AI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/MiniMax_AI
+  run_mode: shadow
+  config:
+    username: MiniMax_AI
+    proxy: rsshub/twitter/user
+- id: x_mistralai
+  name: X：Mistral AI (@MistralAI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/MistralAI
+  run_mode: shadow
+  config:
+    username: MistralAI
+    proxy: rsshub/twitter/user
+- id: x_natolambert
+  name: X：Nathan Lambert (@natolambert)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/natolambert
+  run_mode: shadow
+  config:
+    username: natolambert
+    proxy: rsshub/twitter/user
+- id: x_polynoamial
+  name: X：Noam Brown (@polynoamial)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/polynoamial
+  run_mode: shadow
+  config:
+    username: polynoamial
+    proxy: rsshub/twitter/user
+- id: x_notebooklm
+  name: X：NotebookLM (@NotebookLM)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/NotebookLM
+  run_mode: shadow
+  config:
+    username: NotebookLM
+    proxy: rsshub/twitter/user
+- id: x_odysseyml
+  name: X：Odyssey (@odysseyml)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/odysseyml
+  run_mode: shadow
+  config:
+    username: odysseyml
+    proxy: rsshub/twitter/user
+- id: x_openai
+  name: X：OpenAI (@OpenAI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/OpenAI
+  run_mode: shadow
+  config:
+    username: OpenAI
+    proxy: rsshub/twitter/user
+- id: x_openaidevs
+  name: X：OpenAI Developers (@OpenAIDevs)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/OpenAIDevs
+  run_mode: shadow
+  config:
+    username: OpenAIDevs
+    proxy: rsshub/twitter/user
+- id: x_openclaw
+  name: X：OpenClaw (@openclaw)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/openclaw
+  run_mode: shadow
+  config:
+    username: openclaw
+    proxy: rsshub/twitter/user
+- id: x_opencode
+  name: X：opencode (@opencode)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/opencode
+  run_mode: shadow
+  config:
+    username: opencode
+    proxy: rsshub/twitter/user
+- id: x_openrouter
+  name: X：OpenRouter (@OpenRouter)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/OpenRouter
+  run_mode: shadow
+  config:
+    username: OpenRouter
+    proxy: rsshub/twitter/user
+- id: x_oran_ge
+  name: X：Oran Ge (@oran_ge)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/oran_ge
+  run_mode: shadow
+  config:
+    username: oran_ge
+    proxy: rsshub/twitter/user
+- id: x_perplexity_ai
+  name: X：Perplexity (@perplexity_ai)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/perplexity_ai
+  run_mode: shadow
+  config:
+    username: perplexity_ai
+    proxy: rsshub/twitter/user
+- id: x_steipete
+  name: X：Peter Steinberger (@steipete)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/steipete
+  run_mode: shadow
+  config:
+    username: steipete
+    proxy: rsshub/twitter/user
+- id: x_pixverse_
+  name: X：PixVerse (@PixVerse_)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/PixVerse_
+  run_mode: shadow
+  config:
+    username: PixVerse_
+    proxy: rsshub/twitter/user
+- id: x_replit
+  name: X：Replit (@Replit)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/Replit
+  run_mode: shadow
+  config:
+    username: Replit
+    proxy: rsshub/twitter/user
+- id: x_rohanpaul_ai
+  name: X：Rohan Paul (@rohanpaul_ai)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/rohanpaul_ai
+  run_mode: shadow
+  config:
+    username: rohanpaul_ai
+    proxy: rsshub/twitter/user
+- id: x_runwayml
+  name: X：Runway (@runwayml)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/runwayml
+  run_mode: shadow
+  config:
+    username: runwayml
+    proxy: rsshub/twitter/user
+- id: x_sama
+  name: X：Sam Altman (@sama)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/sama
+  run_mode: shadow
+  config:
+    username: sama
+    proxy: rsshub/twitter/user
+- id: x_satyanadella
+  name: X：Satya Nadella (@satyanadella)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/satyanadella
+  run_mode: shadow
+  config:
+    username: satyanadella
+    proxy: rsshub/twitter/user
+- id: x_semianalysis_
+  name: X：SemiAnalysis (@SemiAnalysis_)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/SemiAnalysis_
+  run_mode: shadow
+  config:
+    username: SemiAnalysis_
+    proxy: rsshub/twitter/user
+- id: x_haoailab
+  name: X：Sky Computing Lab (@haoailab)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/haoailab
+  run_mode: shadow
+  config:
+    username: haoailab
+    proxy: rsshub/twitter/user
+- id: x_sundarpichai
+  name: X：Sundar Pichai (@sundarpichai)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/sundarpichai
+  run_mode: shadow
+  config:
+    username: sundarpichai
+    proxy: rsshub/twitter/user
+- id: x_suno
+  name: X：Suno (@suno)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/suno
+  run_mode: shadow
+  config:
+    username: suno
+    proxy: rsshub/twitter/user
+- id: x_swyx
+  name: X：swyx (@swyx)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/swyx
+  run_mode: shadow
+  config:
+    username: swyx
+    proxy: rsshub/twitter/user
+- id: x_testingcatalog
+  name: X：Testing Catalog (@testingcatalog)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/testingcatalog
+  run_mode: shadow
+  config:
+    username: testingcatalog
+    proxy: rsshub/twitter/user
+- id: x_trq212
+  name: X：Thariq (@trq212)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/trq212
+  run_mode: shadow
+  config:
+    username: trq212
+    proxy: rsshub/twitter/user
+- id: x_thsottiaux
+  name: X：Tibo (@thsottiaux)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/thsottiaux
+  run_mode: shadow
+  config:
+    username: thsottiaux
+    proxy: rsshub/twitter/user
+- id: x_viggleai
+  name: X：Viggle AI (@ViggleAI)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/ViggleAI
+  run_mode: shadow
+  config:
+    username: ViggleAI
+    proxy: rsshub/twitter/user
+- id: x_vista8
+  name: X：Vista (@vista8)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/vista8
+  run_mode: shadow
+  config:
+    username: vista8
+    proxy: rsshub/twitter/user
+- id: x_thexpin
+  name: X：X.PIN (@thexpin)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/thexpin
+  run_mode: shadow
+  config:
+    username: thexpin
+    proxy: rsshub/twitter/user
+- id: x_xai
+  name: X：xAI (@xai)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/xai
+  run_mode: shadow
+  config:
+    username: xai
+    proxy: rsshub/twitter/user
+- id: x_ylecun
+  name: X：Yann LeCun (@ylecun)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/ylecun
+  run_mode: shadow
+  config:
+    username: ylecun
+    proxy: rsshub/twitter/user
+- id: x_yuchenj_uw
+  name: X：Yuchen Jin (@Yuchenj_UW)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/Yuchenj_UW
+  run_mode: shadow
+  config:
+    username: Yuchenj_UW
+    proxy: rsshub/twitter/user
+- id: x_zho_zho_zho
+  name: X：ZHO (@ZHO_ZHO_ZHO)
+  source_type: x
+  adapter: x_proxy
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  url: env://X_RSS_BASE/ZHO_ZHO_ZHO
+  run_mode: shadow
+  config:
+    username: ZHO_ZHO_ZHO
+    proxy: rsshub/twitter/user
+- id: xai_news
+  name: xAI：News（网页）
+  source_type: html
+  adapter: disabled
+  tier: experimental
+  weight: 0.6
+  enabled: true
+  run_mode: shadow
+  quarantined: true

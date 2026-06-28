@@ -120,16 +120,33 @@ def test_live_catalog_registers_priority_sources():
 def test_live_catalog_registers_all_public_feed_sources():
     expected = _public_feed_source_count()
     sources = load_sources("sources/aihot-live.yml", enabled_only=False)
+    enabled_sources = load_sources("sources/aihot-live.yml", enabled_only=True)
     raw = yaml.safe_load(Path("sources/aihot-live.yml").read_text(encoding="utf-8"))
     source_types = [source.source_type for source in sources]
 
     assert len(sources) == expected == 183
     assert source_types.count("wechat") == 23
     assert source_types.count("x") == 107
-    assert not [
+    assert [
         source["id"]
         for source in raw["sources"]
-        if source["source_type"] in {"wechat", "x"} and source["adapter"] != "disabled"
+        if source["source_type"] == "wechat"
+        and source["adapter"] == "rss_proxy"
+        and source["run_mode"] == "shadow"
+        and str(source["url"]).startswith("env://WECHAT_RSS_BASE/")
+    ]
+    assert [
+        source["id"]
+        for source in raw["sources"]
+        if source["source_type"] == "x"
+        and source["adapter"] == "x_proxy"
+        and source["run_mode"] == "shadow"
+        and str(source["url"]).startswith("env://X_RSS_BASE/")
+    ]
+    assert not [
+        source.id
+        for source in enabled_sources
+        if source.source_type in {"wechat", "x"} or source.run_mode == "shadow"
     ]
 
 

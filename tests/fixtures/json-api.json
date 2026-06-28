@@ -1,0 +1,14 @@
+{
+  "data": {
+    "items": [
+      {
+        "title": "Zhipu releases a new GLM research note",
+        "url": "https://example.com/research/glm-note",
+        "published_at": "2026-06-28T11:00:00Z",
+        "summary": "A structured research feed item.",
+        "id": "glm-note-1",
+        "tags": ["research", "glm"]
+      }
+    ]
+  }
+}

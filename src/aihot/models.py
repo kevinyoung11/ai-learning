@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -15,6 +16,10 @@ class SourceConfig:
     weight: float = 1.0
     enabled: bool = True
     timeout_seconds: float = 10.0
+    run_mode: str = "active"
+    auth_env: str | None = None
+    config: dict[str, Any] = field(default_factory=dict)
+    quarantined: bool = False
 
 
 @dataclass(frozen=True)
