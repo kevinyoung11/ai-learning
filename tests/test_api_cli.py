@@ -35,11 +35,12 @@ def test_cli_ingest_accepts_allow_network_option(tmp_path, monkeypatch):
     runner = CliRunner()
     captured = {}
 
-    def fake_run_pipeline_once(sources, db, *, fixture_dir=None, allow_network=False):
+    def fake_run_pipeline_once(sources, db, *, fixture_dir=None, allow_network=False, include_shadow=False):
         captured["sources"] = sources
         captured["db"] = db
         captured["fixture_dir"] = fixture_dir
         captured["allow_network"] = allow_network
+        captured["include_shadow"] = include_shadow
         return {"sources_total": 1, "sources_failed": 0, "items_inserted": 1, "stories": 1}
 
     monkeypatch.setattr("aihot.cli.run_pipeline_once", fake_run_pipeline_once)
@@ -58,6 +59,7 @@ def test_cli_ingest_accepts_allow_network_option(tmp_path, monkeypatch):
 
     assert result.exit_code == 0
     assert captured["allow_network"] is True
+    assert captured["include_shadow"] is False
     assert '"items_inserted": 1' in result.stdout
 
 
@@ -72,6 +74,7 @@ def test_cli_watch_passes_schedule_options(tmp_path, monkeypatch):
         *,
         fixture_dir=None,
         allow_network=False,
+        include_shadow=False,
         interval_seconds=None,
         daily_at=None,
         run_immediately=True,
@@ -83,6 +86,7 @@ def test_cli_watch_passes_schedule_options(tmp_path, monkeypatch):
                 "db": db,
                 "fixture_dir": fixture_dir,
                 "allow_network": allow_network,
+                "include_shadow": include_shadow,
                 "interval_seconds": interval_seconds,
                 "daily_at": daily_at,
                 "run_immediately": run_immediately,
@@ -113,6 +117,7 @@ def test_cli_watch_passes_schedule_options(tmp_path, monkeypatch):
 
     assert result.exit_code == 0
     assert captured["allow_network"] is True
+    assert captured["include_shadow"] is False
     assert captured["daily_at"] == "08:30"
     assert captured["run_immediately"] is False
     assert captured["max_runs"] == 1

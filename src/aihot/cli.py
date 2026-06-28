@@ -18,8 +18,15 @@ def ingest(
     db: Path = typer.Option(..., "--db"),
     fixture_dir: Path | None = typer.Option(None, "--fixture-dir", exists=True, readable=True),
     allow_network: bool = typer.Option(False, "--allow-network", help="Allow fetching live HTTP(S) sources."),
+    include_shadow: bool = typer.Option(False, "--include-shadow", help="Also fetch shadow/experimental sources."),
 ) -> None:
-    summary = run_pipeline_once(sources, db, fixture_dir=fixture_dir, allow_network=allow_network)
+    summary = run_pipeline_once(
+        sources,
+        db,
+        fixture_dir=fixture_dir,
+        allow_network=allow_network,
+        include_shadow=include_shadow,
+    )
     typer.echo(json.dumps(summary, ensure_ascii=False, sort_keys=True))
 
 
@@ -29,11 +36,12 @@ def watch(
     db: Path = typer.Option(..., "--db"),
     fixture_dir: Path | None = typer.Option(None, "--fixture-dir", exists=True, readable=True),
     allow_network: bool = typer.Option(False, "--allow-network", help="Allow fetching live HTTP(S) sources."),
+    include_shadow: bool = typer.Option(False, "--include-shadow", help="Also fetch shadow/experimental sources."),
     interval_minutes: int | None = typer.Option(
         None,
         "--interval-minutes",
         min=1,
-        help="Run repeatedly after this many minutes. Defaults to 1440 when --daily-at is omitted.",
+        help="Run repeatedly after this many minutes. Defaults to 60 when --daily-at is omitted.",
     ),
     daily_at: str | None = typer.Option(
         None,
@@ -49,6 +57,7 @@ def watch(
         db,
         fixture_dir=fixture_dir,
         allow_network=allow_network,
+        include_shadow=include_shadow,
         interval_seconds=interval_seconds,
         daily_at=daily_at,
         run_immediately=not wait_first,

@@ -45,18 +45,18 @@ Run one live ingestion into the local app database:
   --allow-network
 ```
 
-Run a long-lived daily scanner. This command runs once immediately, then
-continues every day at 08:30 local time:
+Run a long-lived hourly scanner. This command runs once immediately, then
+continues every hour:
 
 ```bash
 .venv/bin/python -m aihot.cli watch \
   --sources sources/aihot-live.yml \
   --db data/aihot.db \
-  --allow-network \
-  --daily-at 08:30
+  --allow-network
 ```
 
 For systemd/launchd smoke tests, add `--max-runs 1` to exit after one scan.
+For a fixed daily time instead of hourly scanning, add `--daily-at 08:30`.
 
 Serve the read API:
 

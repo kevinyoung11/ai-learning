@@ -43,6 +43,7 @@ def run_scheduled_ingest(
     *,
     fixture_dir: str | Path | None = None,
     allow_network: bool = False,
+    include_shadow: bool = False,
     interval_seconds: int | None = None,
     daily_at: str | None = None,
     run_immediately: bool = True,
@@ -52,7 +53,7 @@ def run_scheduled_ingest(
     emit: Emit | None = None,
 ) -> None:
     if interval_seconds is None and daily_at is None:
-        interval_seconds = 24 * 60 * 60
+        interval_seconds = 60 * 60
     if interval_seconds is not None and interval_seconds <= 0:
         raise ValueError("interval_seconds must be positive")
     if max_runs is not None and max_runs <= 0:
@@ -79,6 +80,7 @@ def run_scheduled_ingest(
             db_path,
             fixture_dir=fixture_dir,
             allow_network=allow_network,
+            include_shadow=include_shadow,
         )
         runs += 1
         first_run = False

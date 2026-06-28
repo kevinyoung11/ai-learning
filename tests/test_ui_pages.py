@@ -93,6 +93,13 @@ def test_home_page_renders_selected_stories_with_real_links(tmp_path):
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
     assert "AI HOT · 精选" in response.text
+    assert 'class="app-shell"' in response.text
+    assert 'class="sidebar"' in response.text
+    assert 'class="timeline"' in response.text
+    assert 'class="timeline-card"' in response.text
+    assert "入选依据" in response.text
+    assert "推荐理由" not in response.text
+    assert "AI 推荐分" not in response.text
     assert "OpenAI releases new agent tools" in response.text
     assert re.search(r'href="/story/[a-f0-9]{12}"', response.text)
     assert 'href="/all-news"' in response.text
@@ -121,6 +128,8 @@ def test_story_page_renders_story_detail_and_source_items(tmp_path):
     assert "OpenAI releases new agent tools" in response.text
     assert "New tools help developers build reliable agents." in response.text
     assert "全部来源 · 1" in response.text
+    assert "规则热度" in response.text
+    assert "入选依据" in response.text
     assert 'href="/"' in response.text
 
 
@@ -131,6 +140,8 @@ def test_all_news_page_renders_all_items_and_source_health(tmp_path):
 
     assert response.status_code == 200
     assert "AI HOT · 全部资讯" in response.text
+    assert 'class="app-shell"' in response.text
+    assert 'class="source-panel"' in response.text
     assert "全部资讯" in response.text
     assert "DeepMind publishes Gemini robotics update" in response.text
     assert "Missing Fixture" in response.text
@@ -156,6 +167,7 @@ def test_digest_page_renders_daily_report_and_top_links(tmp_path):
 
     assert response.status_code == 200
     assert "AI HOT · 每日摘要" in response.text
+    assert 'class="daily-brief"' in response.text
     assert "2026-06-28 AI 速报" in response.text
     assert "今日必读" in response.text
     assert "OpenAI releases new agent tools" in response.text
@@ -181,3 +193,17 @@ def test_ui_stylesheet_is_served(tmp_path):
     assert response.status_code == 200
     assert "text/css" in response.headers["content-type"]
     assert "--ink: #18181B" in response.text
+    assert ':root[data-theme="dark"]' in response.text
+    assert ':root[data-theme="light"]' in response.text
+    assert ".theme-toggle" in response.text
+
+
+def test_page_supports_dark_and_light_theme_controls(tmp_path):
+    client = make_client(tmp_path)
+
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert 'data-theme-choice="dark"' in response.text
+    assert 'data-theme-choice="light"' in response.text
+    assert "aihot-theme" in response.text

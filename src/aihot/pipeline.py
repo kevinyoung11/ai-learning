@@ -19,18 +19,26 @@ def run_pipeline_once(
     *,
     fixture_dir: str | Path | None = None,
     allow_network: bool = False,
+    include_shadow: bool = False,
 ) -> dict[str, int]:
     fetched_at = datetime.now(timezone.utc)
     all_sources = load_sources(catalog_path, enabled_only=False)
-    enabled_sources = [source for source in all_sources if source.enabled]
+    enabled_sources = _selected_sources(all_sources, include_shadow=include_shadow)
     source_map = {source.id: source for source in all_sources}
     repo = Repository(db_path)
     repo.init_db()
     repo.upsert_sources(all_sources)
 
     normalized_items: list[NormalizedItem] = []
+    story_items: list[NormalizedItem] = []
     failed = 0
+    blocked = 0
+    quarantined = 0
     for source in enabled_sources:
+        if source.quarantined:
+            quarantined += 1
+            repo.insert_source_run(SourceRun(source.id, "quarantined", fetched_at, 0, "source is quarantined"))
+            continue
         try:
             raw_entries = fetch_source_entries(
                 source,
@@ -39,6 +47,8 @@ def run_pipeline_once(
             )
             source_items, normalize_skips = _normalize_entries(raw_entries, fetched_at)
             normalized_items.extend(source_items)
+            if source.run_mode == "active":
+                story_items.extend(source_items)
             skipped = normalize_skips
             if skipped:
                 repo.insert_source_run(
@@ -53,17 +63,21 @@ def run_pipeline_once(
             else:
                 repo.insert_source_run(SourceRun(source.id, "success", fetched_at, len(source_items)))
         except FetchError as exc:
-            failed += 1
-            repo.insert_source_run(SourceRun(source.id, "failed", fetched_at, 0, str(exc)))
+            if _is_blocked_config_error(exc):
+                blocked += 1
+                repo.insert_source_run(SourceRun(source.id, "blocked_config", fetched_at, 0, str(exc)))
+            else:
+                failed += 1
+                repo.insert_source_run(SourceRun(source.id, "failed", fetched_at, 0, str(exc)))
 
     deduped_items = dedupe_items(normalized_items)
     persisted_url_by_hash = {item.content_hash: item.canonical_url for item in deduped_items}
     persisted_url_by_canonical = {item.canonical_url: item.canonical_url for item in deduped_items}
     repo.upsert_items(deduped_items)
-    clustered_stories = cluster_items(normalized_items)
+    clustered_stories = cluster_items(story_items)
     persisted_stories = _rewrite_story_membership(
         clustered_stories,
-        normalized_items,
+        story_items,
         persisted_url_by_hash,
         persisted_url_by_canonical,
     )
@@ -76,9 +90,23 @@ def run_pipeline_once(
     return {
         "sources_total": len(enabled_sources),
         "sources_failed": failed,
+        "sources_blocked": blocked,
+        "sources_quarantined": quarantined,
         "items_inserted": len(repo.list_items(mode="all")),
         "stories": len(stories),
     }
+
+
+def _selected_sources(sources: list[SourceConfig], *, include_shadow: bool) -> list[SourceConfig]:
+    return [
+        source
+        for source in sources
+        if source.enabled and (source.run_mode == "active" or include_shadow)
+    ]
+
+
+def _is_blocked_config_error(exc: FetchError) -> bool:
+    return exc.reason.startswith("missing required environment variable") or "requires url or config.user_id" in exc.reason
 
 
 def _score_stories(stories: list[Story], source_map: dict[str, SourceConfig]) -> list[Story]:
