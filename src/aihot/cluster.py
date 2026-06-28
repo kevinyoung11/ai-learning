@@ -8,6 +8,25 @@ from aihot.models import NormalizedItem, Story
 
 
 _STORY_SOURCE_IDS: dict[str, tuple[str, ...]] = {}
+_TITLE_STOPWORDS = {
+    "a",
+    "ai",
+    "an",
+    "and",
+    "for",
+    "hn",
+    "in",
+    "latest",
+    "news",
+    "of",
+    "on",
+    "show",
+    "the",
+    "to",
+    "under",
+    "using",
+    "with",
+}
 
 
 def dedupe_items(items: Iterable[NormalizedItem]) -> list[NormalizedItem]:
@@ -56,7 +75,8 @@ def _belongs_to_cluster(item: NormalizedItem, cluster: list[NormalizedItem]) -> 
 
     item_tokens = _tokens(item.title_key or item.title)
     return any(
-        len(item_tokens & _tokens(existing.title_key or existing.title)) >= 2
+        item.source_id != existing.source_id
+        and _token_similarity(item_tokens, _tokens(existing.title_key or existing.title))
         for existing in cluster
     )
 
@@ -66,13 +86,14 @@ def _story_from_cluster(cluster: list[NormalizedItem]) -> Story:
     representative = ordered[0]
     source_ids = tuple(sorted({item.source_id for item in ordered}))
     item_urls = tuple(dict.fromkeys(item.canonical_url for item in ordered))
-    story_id = _story_id(representative.day if hasattr(representative, "day") else representative.published_at.date().isoformat(), representative.title_key)
+    day = representative.published_at.date().isoformat()
+    story_id = _story_id(day, representative.title_key, item_urls[0] if len(item_urls) == 1 else "")
     _STORY_SOURCE_IDS[story_id] = source_ids
 
     return Story(
         id=story_id,
         canonical_title=representative.title,
-        day=representative.published_at.date().isoformat(),
+        day=day,
         summary=representative.raw_content,
         hotness=float(len(ordered)),
         source_count=len(source_ids),
@@ -81,7 +102,17 @@ def _story_from_cluster(cluster: list[NormalizedItem]) -> Story:
 
 
 def _tokens(text: str) -> set[str]:
-    return {token for token in text.lower().split() if token}
+    return {token for token in text.lower().split() if token and token not in _TITLE_STOPWORDS}
+
+
+def _token_similarity(left: set[str], right: set[str]) -> bool:
+    if not left or not right:
+        return False
+    overlap = len(left & right)
+    smaller = min(len(left), len(right))
+    if smaller <= 3:
+        return left == right
+    return overlap >= 3 and overlap / smaller >= 0.60
 
 
 def _dedupe_for_clustering(items: Iterable[NormalizedItem]) -> list[NormalizedItem]:
@@ -99,8 +130,8 @@ def _dedupe_for_clustering(items: Iterable[NormalizedItem]) -> list[NormalizedIt
     return deduped
 
 
-def _story_id(day: str, title_key: str) -> str:
-    digest = sha1(f"{day}\n{title_key}".encode("utf-8")).hexdigest()
+def _story_id(day: str, title_key: str, disambiguator: str = "") -> str:
+    digest = sha1(f"{day}\n{title_key}\n{disambiguator}".encode("utf-8")).hexdigest()
     return digest[:12]
 
 

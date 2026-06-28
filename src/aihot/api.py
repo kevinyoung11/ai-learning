@@ -23,7 +23,9 @@ def create_app(db_path: str | Path) -> FastAPI:
 
     @app.get("/", response_class=HTMLResponse)
     def home_page() -> str:
-        return render_home(repo.list_items(mode="selected"))
+        day = _latest_day(repo)
+        items = _items_for_day(repo.list_items(mode="selected"), day)
+        return render_home(items, day)
 
     @app.get("/story/{story_id}", response_class=HTMLResponse)
     def story_page(story_id: str) -> str:
@@ -43,7 +45,8 @@ def create_app(db_path: str | Path) -> FastAPI:
         if not daily_rows:
             raise HTTPException(status_code=404, detail="daily report not found")
         daily = daily_rows[0]
-        return render_digest(str(daily["day"]), daily, repo.list_items(mode="selected"))
+        day = str(daily["day"])
+        return render_digest(day, daily, _items_for_day(repo.list_items(mode="selected"), day))
 
     @app.get("/sources")
     def sources() -> dict[str, object]:
@@ -105,3 +108,17 @@ def _sources_with_health(repo: Repository) -> list[dict[str, object]]:
             }
         )
     return enriched
+
+
+def _latest_day(repo: Repository) -> str | None:
+    daily_rows = repo.list_daily_reports()
+    if daily_rows:
+        return str(daily_rows[0]["day"])
+    items = repo.list_items(mode="selected")
+    return str(items[0]["published_at"])[:10] if items else None
+
+
+def _items_for_day(items: list[dict[str, object]], day: str | None) -> list[dict[str, object]]:
+    if day is None:
+        return items
+    return [item for item in items if str(item.get("published_at", "")).startswith(day)]

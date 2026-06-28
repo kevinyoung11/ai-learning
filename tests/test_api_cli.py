@@ -30,6 +30,37 @@ def test_cli_ingest_creates_database_and_prints_summary(tmp_path):
     assert db_path.exists()
 
 
+def test_cli_ingest_accepts_allow_network_option(tmp_path, monkeypatch):
+    db_path = tmp_path / "aihot.db"
+    runner = CliRunner()
+    captured = {}
+
+    def fake_run_pipeline_once(sources, db, *, fixture_dir=None, allow_network=False):
+        captured["sources"] = sources
+        captured["db"] = db
+        captured["fixture_dir"] = fixture_dir
+        captured["allow_network"] = allow_network
+        return {"sources_total": 1, "sources_failed": 0, "items_inserted": 1, "stories": 1}
+
+    monkeypatch.setattr("aihot.cli.run_pipeline_once", fake_run_pipeline_once)
+
+    result = runner.invoke(
+        app,
+        [
+            "ingest",
+            "--sources",
+            "sources/aihot-mvp.yml",
+            "--db",
+            str(db_path),
+            "--allow-network",
+        ],
+    )
+
+    assert result.exit_code == 0
+    assert captured["allow_network"] is True
+    assert '"items_inserted": 1' in result.stdout
+
+
 def test_api_reads_ingested_database(tmp_path):
     db_path = tmp_path / "aihot.db"
     run_pipeline_once(Path("sources/aihot-mvp.yml"), db_path, fixture_dir=Path("tests/fixtures"))

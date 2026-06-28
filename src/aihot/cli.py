@@ -16,8 +16,9 @@ def ingest(
     sources: Path = typer.Option(..., "--sources", exists=True, readable=True),
     db: Path = typer.Option(..., "--db"),
     fixture_dir: Path | None = typer.Option(None, "--fixture-dir", exists=True, readable=True),
+    allow_network: bool = typer.Option(False, "--allow-network", help="Allow fetching live HTTP(S) sources."),
 ) -> None:
-    summary = run_pipeline_once(sources, db, fixture_dir=fixture_dir)
+    summary = run_pipeline_once(sources, db, fixture_dir=fixture_dir, allow_network=allow_network)
     typer.echo(json.dumps(summary, ensure_ascii=False, sort_keys=True))
 
 

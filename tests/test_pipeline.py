@@ -176,3 +176,92 @@ def test_pipeline_records_skipped_malformed_entries_in_source_run(tmp_path):
     run = repo.list_source_runs("malformed_fixture")[0]
     assert run["status"] == "success_with_skips"
     assert "skipped 2 malformed entries" in run["error"]
+
+
+def test_pipeline_skips_entries_that_raise_during_normalization(tmp_path):
+    fixture_dir = tmp_path / "fixtures"
+    fixture_dir.mkdir()
+    (fixture_dir / "bad-url.xml").write_text(
+        """
+<rss><channel><title>Bad URL</title>
+<item>
+  <title>Invalid URL item</title>
+  <link>https://example.com:bad/path</link>
+  <pubDate>Sun, 28 Jun 2026 08:00:00 GMT</pubDate>
+  <description>Invalid URL should not abort the source.</description>
+</item>
+<item>
+  <title>Valid URL item</title>
+  <link>https://example.com/good</link>
+  <pubDate>Sun, 28 Jun 2026 09:00:00 GMT</pubDate>
+  <description>Valid item survives.</description>
+</item>
+</channel></rss>
+""",
+        encoding="utf-8",
+    )
+    catalog = tmp_path / "bad-url.yml"
+    catalog.write_text(
+        yaml.safe_dump(
+            {
+                "sources": [
+                    {
+                        "id": "bad_url",
+                        "name": "Bad URL",
+                        "source_type": "rss",
+                        "adapter": "rss",
+                        "url": "fixture://bad-url.xml",
+                        "enabled": True,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = run_pipeline_once(catalog, tmp_path / "bad-url.db", fixture_dir=fixture_dir)
+
+    repo = Repository(tmp_path / "bad-url.db")
+    run = repo.list_source_runs("bad_url")[0]
+    assert summary["items_inserted"] == 1
+    assert run["status"] == "success_with_skips"
+    assert "skipped 1 malformed entries" in run["error"]
+
+
+def test_pipeline_can_opt_into_live_network_fetches(tmp_path, monkeypatch):
+    catalog = tmp_path / "live.yml"
+    db_path = tmp_path / "aihot.db"
+    catalog.write_text(
+        yaml.safe_dump(
+            {
+                "sources": [
+                    {
+                        "id": "live_feed",
+                        "name": "Live Feed",
+                        "source_type": "rss",
+                        "adapter": "rss",
+                        "url": "https://example.test/feed.xml",
+                        "enabled": True,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    def fake_fetch_url(source):
+        assert source.id == "live_feed"
+        return Path("tests/fixtures/ai-feed.xml").read_bytes()
+
+    monkeypatch.setattr("aihot.adapters._fetch_url", fake_fetch_url)
+
+    blocked = run_pipeline_once(catalog, db_path)
+    allowed = run_pipeline_once(catalog, db_path, allow_network=True)
+
+    repo = Repository(db_path)
+    runs = repo.list_source_runs("live_feed")
+    assert blocked["sources_failed"] == 1
+    assert allowed["sources_failed"] == 0
+    assert allowed["items_inserted"] == 2
+    assert runs[0]["status"] == "success"
+    assert runs[1]["status"] == "failed"

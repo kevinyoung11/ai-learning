@@ -7,7 +7,7 @@ from pathlib import Path
 from aihot.adapters import FetchError, fetch_source_entries
 from aihot.cluster import cluster_items, dedupe_items
 from aihot.config import load_sources
-from aihot.models import NormalizedItem, SourceConfig, SourceRun, Story
+from aihot.models import NormalizedItem, RawEntry, SourceConfig, SourceRun, Story
 from aihot.normalize import normalize_entry
 from aihot.repository import Repository
 from aihot.score import generate_daily_report, score_story
@@ -18,6 +18,7 @@ def run_pipeline_once(
     db_path: str | Path,
     *,
     fixture_dir: str | Path | None = None,
+    allow_network: bool = False,
 ) -> dict[str, int]:
     fetched_at = datetime.now(timezone.utc)
     all_sources = load_sources(catalog_path, enabled_only=False)
@@ -34,14 +35,11 @@ def run_pipeline_once(
             raw_entries = fetch_source_entries(
                 source,
                 fixture_dir=Path(fixture_dir) if fixture_dir is not None else None,
+                allow_network=allow_network,
             )
-            source_items = [
-                item
-                for entry in raw_entries
-                if (item := normalize_entry(entry, fetched_at=fetched_at)) is not None
-            ]
+            source_items, normalize_skips = _normalize_entries(raw_entries, fetched_at)
             normalized_items.extend(source_items)
-            skipped = len(raw_entries) - len(source_items)
+            skipped = normalize_skips
             if skipped:
                 repo.insert_source_run(
                     SourceRun(
@@ -99,6 +97,25 @@ def _score_stories(stories: list[Story], source_map: dict[str, SourceConfig]) ->
             )
         )
     return scored
+
+
+def _normalize_entries(
+    raw_entries: list[RawEntry],
+    fetched_at: datetime,
+) -> tuple[list[NormalizedItem], int]:
+    items: list[NormalizedItem] = []
+    skipped = 0
+    for entry in raw_entries:
+        try:
+            item = normalize_entry(entry, fetched_at=fetched_at)
+        except (TypeError, ValueError):
+            skipped += 1
+            continue
+        if item is None:
+            skipped += 1
+            continue
+        items.append(item)
+    return items, skipped
 
 
 def _rewrite_story_membership(

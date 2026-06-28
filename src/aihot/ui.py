@@ -125,7 +125,7 @@ a { color: inherit; text-decoration: none; }
 """
 
 
-def render_home(items: list[dict[str, Any]]) -> str:
+def render_home(items: list[dict[str, Any]], day: str | None = None) -> str:
     lead = items[0] if items else None
     rows = items[1:]
     lead_html = ""
@@ -153,7 +153,7 @@ def render_home(items: list[dict[str, Any]]) -> str:
         <div class="section-head">
           <div>
             <p class="section-title">今日精选</p>
-            <p class="section-sub">2026年6月28日 · {len(items)} 个聚合故事</p>
+            <p class="section-sub">{display_day(day)} · {len(items)} 个聚合故事</p>
           </div>
           <div class="chips">
             <span class="chip on">全部</span><span class="chip">模型</span><span class="chip">产品</span><span class="chip">论文</span><span class="chip">行业</span>
@@ -217,25 +217,14 @@ def render_all_news(items: list[dict[str, Any]], sources: list[dict[str, Any]]) 
         f'<span><span>{h(source["name"])}</span><span>{h(str(source.get("last_status")))}</span></span>'
         for source in sources
     )
-    entries = "\n".join(
-        f"""
-        <a class="entry" href="{h(item['url'])}">
-          <span class="ts">{time_text(item['published_at'])}</span>
-          <div class="eb">
-            <p class="et">{h(item['title'])}</p>
-            <p class="em">{h(item['source_type'])} · {h(item['source_id'])}</p>
-          </div>
-        </a>
-        """
-        for item in items
-    )
+    entries = render_news_entries_by_day(items)
     return page(
         "AI HOT · 全部资讯",
         "all",
         f"""
         <div class="feed-head">
           <div><p class="t">全部资讯</p><p class="s">{len(sources)} 个来源 · 本地聚合</p></div>
-          <span class="muted" style="font-size:12.5px">&#8635; fixture 数据</span>
+          <span class="muted" style="font-size:12.5px">&#8635; 本地数据</span>
         </div>
         <div class="feed-body">
           <div class="sidebar">
@@ -244,7 +233,7 @@ def render_all_news(items: list[dict[str, Any]], sources: list[dict[str, Any]]) 
             <p class="h" style="margin-top:18px">源状态</p>
             <div class="filter">{source_health}</div>
           </div>
-          <div class="stream"><div class="time-group">2026-06-28</div>{entries}</div>
+          <div class="stream">{entries}</div>
         </div>
         """,
     )
@@ -294,6 +283,29 @@ def render_home_row(rank: int, item: dict[str, Any]) -> str:
     """
 
 
+def render_news_entries_by_day(items: list[dict[str, Any]]) -> str:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for item in items:
+        grouped.setdefault(day_text(item.get("published_at")), []).append(item)
+
+    chunks: list[str] = []
+    for day, day_items in grouped.items():
+        entries = "\n".join(
+            f"""
+        <a class="entry" href="{h(item['url'])}">
+          <span class="ts">{time_text(item['published_at'])}</span>
+          <div class="eb">
+            <p class="et">{h(item['title'])}</p>
+            <p class="em">{h(item['source_type'])} · {h(item['source_id'])}</p>
+          </div>
+        </a>
+        """
+            for item in day_items
+        )
+        chunks.append(f'<div class="time-group">{h(day)}</div>{entries}')
+    return "\n".join(chunks)
+
+
 def page(title: str, active: str, body: str) -> str:
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -334,6 +346,19 @@ def time_text(value: Any) -> str:
     if "T" in text:
         return text.split("T", 1)[1][:5]
     return text[:10]
+
+
+def day_text(value: Any) -> str:
+    return str(value)[:10]
+
+
+def display_day(value: str | None) -> str:
+    if not value:
+        return "最新日期"
+    parts = value.split("-")
+    if len(parts) == 3:
+        return f"{parts[0]}年{int(parts[1])}月{int(parts[2])}日"
+    return value
 
 
 def source_icon(source_type: str) -> str:

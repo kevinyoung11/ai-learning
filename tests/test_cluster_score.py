@@ -9,6 +9,7 @@ def make_item(
     title: str,
     url: str,
     source_id: str = "src",
+    source_type: str = "rss",
     published_at: datetime | None = None,
     content_hash: str | None = None,
 ) -> NormalizedItem:
@@ -16,7 +17,7 @@ def make_item(
     key = "".join(ch for ch in title.lower() if ch.isalnum() or ch.isspace()).strip()
     return NormalizedItem(
         source_id=source_id,
-        source_type="rss",
+        source_type=source_type,
         title=title,
         url=url,
         canonical_url=url,
@@ -49,6 +50,69 @@ def test_cluster_items_groups_related_titles_inside_day_window():
 
     source_counts = sorted(story.source_count for story in stories)
     assert source_counts == [1, 2]
+
+
+def test_cluster_items_does_not_chain_unrelated_same_day_titles_with_common_words():
+    items = [
+        make_item(
+            "Jun 11 2026 research Governing agent autonomy with Auto-review",
+            "https://example.com/auto-review",
+            "cursor",
+        ),
+        make_item(
+            "Jun 10 2026 product Bugbot is faster and cheaper",
+            "https://example.com/bugbot",
+            "cursor",
+        ),
+        make_item(
+            "Jun 2 2026 research What we learned building cloud agents",
+            "https://example.com/cloud-agents",
+            "cursor",
+        ),
+    ]
+
+    stories = cluster_items(items)
+
+    assert len(stories) == 3
+
+
+def test_cluster_items_ignores_generic_hn_ai_title_words():
+    items = [
+        make_item("Show HN: I built an AI fence visualizer", "https://news.ycombinator.com/item?id=1", "hn"),
+        make_item("Show HN: Genius AI Detector", "https://news.ycombinator.com/item?id=2", "hn"),
+        make_item(
+            "Show HN: AgentWatch prevent runaway AI agents",
+            "https://news.ycombinator.com/item?id=3",
+            "hn",
+        ),
+    ]
+
+    stories = cluster_items(items)
+
+    assert len(stories) == 3
+
+
+def test_cluster_items_does_not_merge_short_subset_titles():
+    stories = cluster_items(
+        [
+            make_item("Show HN: Claude Code", "https://news.ycombinator.com/item?id=1", "hn"),
+            make_item("Show HN: Claude Code for Jira", "https://news.ycombinator.com/item?id=2", "hn"),
+        ]
+    )
+
+    assert len(stories) == 2
+
+
+def test_cluster_items_gives_generic_html_titles_distinct_story_ids():
+    stories = cluster_items(
+        [
+            make_item("Latest News", "https://one.example.com/latest", "one", source_type="html"),
+            make_item("Latest News", "https://two.example.com/latest", "two", source_type="html"),
+        ]
+    )
+
+    assert len(stories) == 2
+    assert len({story.id for story in stories}) == 2
 
 
 def test_cluster_items_story_membership_uses_canonical_urls():

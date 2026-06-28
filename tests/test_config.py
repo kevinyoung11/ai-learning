@@ -96,3 +96,21 @@ sources:
 
     assert sources[0].enabled is False
     assert sources[0].adapter == "disabled"
+
+
+def test_live_catalog_registers_priority_sources():
+    sources = load_sources("sources/aihot-live.yml", enabled_only=False)
+    enabled_sources = load_sources("sources/aihot-live.yml", enabled_only=True)
+    by_id = {source.id: source for source in sources}
+    enabled_adapters = {source.adapter for source in enabled_sources}
+
+    assert len(sources) >= 40
+    assert len(enabled_sources) >= 20
+    assert by_id["inclusionai_github_repos"].adapter == "github_org_repos"
+    assert by_id["inclusionai_hf_models"].adapter == "huggingface_models"
+    assert by_id["openai_news"].adapter == "rss"
+    assert by_id["anthropic_news"].adapter == "html_links"
+    assert by_id["hn_ai"].adapter == "hn_algolia"
+    assert not [source.id for source in enabled_sources if source.adapter in {"disabled", "html_links"}]
+    assert not [source.id for source in enabled_sources if not source.url]
+    assert {"github_org_repos", "github_releases", "hn_algolia", "huggingface_models", "rss"} <= enabled_adapters
