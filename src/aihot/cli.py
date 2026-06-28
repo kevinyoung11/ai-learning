@@ -33,7 +33,7 @@ def watch(
         None,
         "--interval-minutes",
         min=1,
-        help="Run repeatedly after this many minutes. Defaults to 1440 when --daily-at is omitted.",
+        help="Run repeatedly after this many minutes. Defaults to 60 when --daily-at is omitted.",
     ),
     daily_at: str | None = typer.Option(
         None,

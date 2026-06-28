@@ -93,6 +93,11 @@ def test_home_page_renders_selected_stories_with_real_links(tmp_path):
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
     assert "AI HOT · 精选" in response.text
+    assert 'class="app-shell"' in response.text
+    assert 'class="sidebar"' in response.text
+    assert 'class="timeline"' in response.text
+    assert 'class="timeline-card"' in response.text
+    assert "推荐理由" in response.text
     assert "OpenAI releases new agent tools" in response.text
     assert re.search(r'href="/story/[a-f0-9]{12}"', response.text)
     assert 'href="/all-news"' in response.text
@@ -131,6 +136,8 @@ def test_all_news_page_renders_all_items_and_source_health(tmp_path):
 
     assert response.status_code == 200
     assert "AI HOT · 全部资讯" in response.text
+    assert 'class="app-shell"' in response.text
+    assert 'class="source-panel"' in response.text
     assert "全部资讯" in response.text
     assert "DeepMind publishes Gemini robotics update" in response.text
     assert "Missing Fixture" in response.text
@@ -156,6 +163,7 @@ def test_digest_page_renders_daily_report_and_top_links(tmp_path):
 
     assert response.status_code == 200
     assert "AI HOT · 每日摘要" in response.text
+    assert 'class="daily-brief"' in response.text
     assert "2026-06-28 AI 速报" in response.text
     assert "今日必读" in response.text
     assert "OpenAI releases new agent tools" in response.text

@@ -52,7 +52,7 @@ def run_scheduled_ingest(
     emit: Emit | None = None,
 ) -> None:
     if interval_seconds is None and daily_at is None:
-        interval_seconds = 24 * 60 * 60
+        interval_seconds = 60 * 60
     if interval_seconds is not None and interval_seconds <= 0:
         raise ValueError("interval_seconds must be positive")
     if max_runs is not None and max_runs <= 0:

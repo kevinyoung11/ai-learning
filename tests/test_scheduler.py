@@ -56,6 +56,29 @@ def test_run_scheduled_ingest_runs_immediately_then_sleeps_between_runs(tmp_path
     assert [event["event"] for event in events] == ["ingest", "sleep", "ingest"]
 
 
+def test_run_scheduled_ingest_defaults_to_hourly_interval(tmp_path, monkeypatch):
+    calls = []
+    sleeps = []
+
+    def fake_pipeline(catalog_path, db_path, *, fixture_dir=None, allow_network=False):
+        calls.append((catalog_path, db_path))
+        return {"sources_total": 1, "sources_failed": 0, "items_inserted": len(calls), "stories": 1}
+
+    monkeypatch.setattr("aihot.scheduler.run_pipeline_once", fake_pipeline)
+
+    run_scheduled_ingest(
+        Path("sources/aihot-mvp.yml"),
+        tmp_path / "aihot.db",
+        run_immediately=False,
+        max_runs=1,
+        sleep=sleeps.append,
+        emit=lambda event: None,
+    )
+
+    assert len(calls) == 1
+    assert sleeps == [3600]
+
+
 def test_run_scheduled_ingest_can_wait_until_daily_time(tmp_path, monkeypatch):
     calls = []
     sleeps = []
